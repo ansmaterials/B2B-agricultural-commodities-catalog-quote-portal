@@ -6,7 +6,7 @@
     <title>A &amp; S Landscape Materials, Inc. — Bulk Agricultural Commodities Portal</title>
     <meta
       name="description"
-      content="B2B agricultural commodities catalog and direct quote request portal for A &amp; S Landscape Materials, Inc. (San Rafael, CA), featuring 46-0-0 Urea, 18-46-0 DAP, and 0-0-60 Muriate of Potash."
+      content="B2B agricultural commodities catalog, live Pro-Forma Invoice & 20%/80% deposit calculator, and direct quote portal for A &amp; S Landscape Materials, Inc. (San Rafael, CA)."
     />
     <meta
       property="og:title"
@@ -14,12 +14,12 @@
     />
     <meta
       property="og:description"
-      content="B2B agricultural commodities catalog and direct quote request portal for A &amp; S Landscape Materials, Inc. (San Rafael, CA), featuring 46-0-0 Urea, 18-46-0 DAP, and 0-0-60 Muriate of Potash."
+      content="B2B agricultural commodities catalog, live Pro-Forma Invoice & 20%/80% deposit calculator, and direct quote portal for A &amp; S Landscape Materials, Inc. (San Rafael, CA)."
     />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <!-- Fonts: Archivo (Display/Industrial), Plus Jakarta Sans (Body), IBM Plex Mono (Technical Specs & CAS) -->
+    <!-- Fonts: Archivo (Display/Industrial), Plus Jakarta Sans (Body), IBM Plex Mono (Technical Specs, Pricing & CAS) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -85,6 +85,10 @@
       .text-balance {
         text-wrap: balance;
       }
+      /* Prevent iOS Safari zoom on form inputs */
+      input, select, textarea {
+        font-size: 16px;
+      }
       /* Native dialog backdrop & smooth entrance */
       dialog::backdrop {
         background: rgba(15, 31, 23, 0.58);
@@ -110,12 +114,57 @@
           scroll-behavior: auto !important;
         }
       }
+
+      /* Clean Printable Pro-Forma Estimate PDF Stylesheet */
+      .print-only {
+        display: none;
+      }
+      @media print {
+        @page {
+          size: letter portrait;
+          margin: 0.55in;
+        }
+        body {
+          background: #ffffff !important;
+          color: #111111 !important;
+        }
+        header,
+        footer,
+        dialog,
+        .no-print {
+          display: none !important;
+        }
+        .print-only {
+          display: block !important;
+        }
+        #proforma-invoice {
+          display: block !important;
+          padding: 0 !important;
+          border: none !important;
+          background: #ffffff !important;
+        }
+        #proforma-invoice .print-container {
+          max-width: 100% !important;
+          padding: 0 !important;
+        }
+        .print-card {
+          border: 1px solid #cbd5e1 !important;
+          box-shadow: none !important;
+          break-inside: avoid;
+        }
+        .print-dark-box {
+          background: #141d18 !important;
+          color: #ffffff !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+      }
     </style>
   </head>
 
   <body class="min-h-screen flex flex-col selection:bg-forest-900 selection:text-white">
     <!-- Top Bar: Strictly 3 Zones (Wordmark — 4 Single-Line Nav Links — 1 Primary Action) -->
-    <header class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-hairline">
+    <header class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-hairline no-print">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3 sm:gap-6 md:gap-8">
         <!-- Zone 1: Single text element wordmark -->
         <a
@@ -137,19 +186,19 @@
             href="#catalog"
             class="hover:text-ink underline-offset-4 hover:underline transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-800 rounded"
           >
-            Catalog
+            Catalog &amp; Pricing
           </a>
           <a
-            href="#logistics"
+            href="#proforma-invoice"
             class="hover:text-ink underline-offset-4 hover:underline transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-800 rounded"
           >
-            Logistics &amp; Terms
+            Pro-Forma Invoice
           </a>
           <a
             href="#quote-request"
             class="hover:text-ink underline-offset-4 hover:underline transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-800 rounded"
           >
-            Quote Request
+            Request Invoice
           </a>
         </nav>
 
@@ -160,7 +209,7 @@
             id="header-quote-cta"
             class="inline-flex items-center justify-center px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-semibold text-white bg-forest-900 hover:bg-forest-800 rounded-md transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-forest-900"
           >
-            Request Quote
+            Request Invoice
           </a>
         </div>
       </div>
@@ -168,7 +217,7 @@
 
     <main id="top" class="flex-1">
       <!-- Hero & Trust/Compliance Header Section -->
-      <section aria-labelledby="hero-heading" class="bg-white border-b border-hairline">
+      <section aria-labelledby="hero-heading" class="bg-white border-b border-hairline no-print">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-12 lg:pt-14 lg:pb-16">
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
             <!-- Left Column: Proposition & Primary Action -->
@@ -189,23 +238,23 @@
                   <strong class="font-semibold text-ink">46-0-0 Urea</strong>,
                   <strong class="font-semibold text-ink">18-46-0 DAP</strong>, and
                   <strong class="font-semibold text-ink">0-0-60 Muriate of Potash</strong>
-                  in Bulk Hopper truckloads and 2,000 lb Super Sacks with lot-matched Guaranteed Analysis and SDS documentation.
+                  with indicative per-ton pricing, instant Pro-Forma 20%/80% deposit estimates, and lot-matched Guaranteed Analysis &amp; SDS documentation.
                 </p>
               </div>
 
               <div class="mt-8 pt-6 border-t border-hairline flex flex-col sm:flex-row sm:items-center gap-4">
                 <a
-                  href="#quote-request"
+                  href="#catalog"
                   class="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-forest-900 hover:bg-forest-800 rounded-md transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-forest-900"
                 >
-                  <span>Build Quote Request</span>
+                  <span>Build Pro-Forma Estimate</span>
                   <i data-lucide="arrow-down" class="w-4 h-4" aria-hidden="true"></i>
                 </a>
                 <a
-                  href="#catalog"
+                  href="#proforma-invoice"
                   class="inline-flex items-center justify-center gap-1.5 px-4 py-3 text-sm font-semibold text-ink hover:text-forest-800 underline-offset-4 hover:underline transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-800 rounded-md"
                 >
-                  <span>Inspect Specifications &amp; SDS</span>
+                  <span>View 20% / 80% Deposit Calculator</span>
                 </a>
               </div>
 
@@ -242,7 +291,7 @@
             </div>
           </div>
 
-          <!-- Full-Width 4-Column Trust & Compliance Bar (Directly below Hero split) -->
+          <!-- Full-Width 4-Column Trust & Compliance Bar -->
           <div
             id="compliance"
             class="scroll-mt-24 mt-10 pt-8 border-t border-hairline grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
@@ -290,151 +339,295 @@
         </div>
       </section>
 
-      <!-- Section 2: Interactive Commodity Catalog -->
-      <section id="catalog" aria-labelledby="catalog-heading" class="scroll-mt-20 py-14 lg:py-18">
+      <!-- Section 2: Interactive Commodity Catalog with Live Pricing & Tonnage Selectors -->
+      <section id="catalog" aria-labelledby="catalog-heading" class="scroll-mt-20 py-14 lg:py-16 no-print">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-8 border-b border-hairline">
             <div>
               <p class="text-xs font-mono text-ink-subtle mb-2">
-                Core NPK Commodity Lineup <span aria-hidden="true" class="mx-1.5">&middot;</span> Bulk &amp; 2,000 lb Totes
+                Core NPK Commodity Lineup <span aria-hidden="true" class="mx-1.5">&middot;</span> Indicative US Short-Ton Rates
               </p>
               <h2 id="catalog-heading" class="font-display text-2xl sm:text-3xl font-bold tracking-tight text-ink">
-                Commercial Fertilizer Specifications
+                Commercial Fertilizer Catalog &amp; Tonnage Builder
               </h2>
             </div>
 
-            <!-- Live Selection Summary & Jump Control -->
+            <!-- Live Order Tonnage Summary & Reset All Control -->
             <div class="flex flex-wrap items-center gap-4 text-sm">
               <span
-                id="catalog-selection-count"
-                data-testid="selection-count"
-                class="font-mono text-xs sm:text-sm text-ink-muted tabular-nums"
+                id="catalog-selection-summary"
+                data-testid="catalog-summary"
+                class="font-mono text-xs sm:text-sm text-ink font-medium tabular-nums"
               >
-                0 products selected for quote
+                20 short tons selected &middot; $15,000.00 product subtotal
               </span>
+              <button
+                type="button"
+                id="reset-all-tons-btn"
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-ink-muted hover:text-ink bg-white hover:bg-hairline/40 border border-hairline rounded-md transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-800"
+              >
+                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5" aria-hidden="true"></i>
+                <span>Reset All</span>
+              </button>
               <a
-                href="#quote-request"
+                href="#proforma-invoice"
                 class="inline-flex items-center gap-1.5 text-sm font-semibold text-forest-800 hover:text-forest-950 underline-offset-4 hover:underline whitespace-nowrap shrink-0"
               >
-                <span>Proceed to Quote Generator</span>
+                <span>View Pro-Forma Invoice</span>
                 <i data-lucide="arrow-right" class="w-4 h-4" aria-hidden="true"></i>
               </a>
             </div>
           </div>
 
-          <!-- 3-Column Product Specification Grid -->
+          <!-- 3-Column Product Specification & Pricing Grid -->
           <div
             id="product-grid"
             class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8"
           >
-            <!-- Rendered deterministically by inline ES6 JS from COMMODITIES data -->
+            <!-- Rendered deterministically by inline ES6 JS from COMMODITIES + PRICING_CONFIG -->
           </div>
         </div>
       </section>
 
-      <!-- Section 3: Packaging, Freight & Settlement Terms -->
-      <section id="logistics" aria-labelledby="logistics-heading" class="scroll-mt-20 bg-white border-y border-hairline py-14 lg:py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="max-w-2xl mb-10">
-            <p class="text-xs font-mono text-ink-subtle mb-2">
-              Fulfillment Formats &amp; Commercial Terms
-            </p>
-            <h2 id="logistics-heading" class="font-display text-2xl sm:text-3xl font-bold tracking-tight text-ink">
-              Packaging Formats &amp; Farm-Gate Verification
-            </h2>
-            <p class="mt-2.5 text-sm sm:text-base text-ink-muted leading-relaxed">
-              Choose the delivery format aligned with your on-farm storage, handling equipment, and application calendar.
-            </p>
+      <!-- Section 3: Live Pro-Forma Invoice & 20% / 80% Deposit Calculator (Also formatted for @media print) -->
+      <section
+        id="proforma-invoice"
+        aria-labelledby="proforma-heading"
+        class="scroll-mt-20 bg-white border-y border-hairline py-14 lg:py-18"
+      >
+        <div class="print-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <!-- Print-Only Corporate Letterhead -->
+          <div class="print-only pb-5 mb-6 border-b-2 border-ink">
+            <div class="flex items-start justify-between gap-6">
+              <div>
+                <h1 class="font-display text-2xl font-bold text-ink">A &amp; S Landscape Materials, Inc.</h1>
+                <p class="text-xs text-ink-muted mt-1">580 Jacoby Street, San Rafael, CA 94901</p>
+                <p class="text-xs font-mono text-ink-muted mt-0.5">
+                  Tel: +1 205-205-5600 &middot; WhatsApp: +1 (985) 299-8282 &middot; Email: Sales.ansmaterials@gmail.com
+                </p>
+              </div>
+              <div class="text-right">
+                <p class="font-display text-lg font-bold text-ink">PRO-FORMA INVOICE ESTIMATE</p>
+                <p id="print-date-line" class="text-xs font-mono text-ink-muted mt-1"></p>
+                <p id="print-buyer-line" class="text-xs text-ink mt-1"></p>
+              </div>
+            </div>
           </div>
 
+          <!-- Screen Section Header -->
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 no-print">
+            <div class="max-w-2xl">
+              <p class="text-xs font-mono text-ink-subtle mb-2">
+                Live Estimator <span aria-hidden="true" class="mx-1.5">&middot;</span> 20% Deposit / 80% Farm-Gate BOL Settlement
+              </p>
+              <h2 id="proforma-heading" class="font-display text-2xl sm:text-3xl font-bold tracking-tight text-ink">
+                Pro-Forma Invoice &amp; Payment Breakdown
+              </h2>
+              <p class="mt-2 text-sm sm:text-base text-ink-muted leading-relaxed">
+                Adjust packaging format and estimated freight allowance below. All line totals and 20%/80% payment milestones update in real time and flow directly into your formal invoice request.
+              </p>
+            </div>
+            <button
+              type="button"
+              id="invoice-print-shortcut-btn"
+              class="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-ink bg-canvas hover:bg-hairline/40 border border-hairline rounded-md transition-colors whitespace-nowrap shrink-0 self-start md:self-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-800"
+            >
+              <i data-lucide="printer" class="w-4 h-4 text-forest-800" aria-hidden="true"></i>
+              <span>Print / Save Estimate as PDF</span>
+            </button>
+          </div>
+
+          <!-- Interactive Packaging & Freight Controls (Screen Only) -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8 p-5 sm:p-6 bg-canvas border border-hairline rounded-lg no-print">
+            <fieldset class="lg:col-span-7">
+              <legend class="block text-sm font-semibold text-ink mb-2.5">
+                Packaging Format &amp; Per-Ton Adder
+              </legend>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="packaging-options-group">
+                <label class="flex items-start gap-2.5 p-3.5 rounded-md border border-hairline bg-white has-[:checked]:bg-forest-50 has-[:checked]:border-forest-800 cursor-pointer transition-colors">
+                  <input
+                    type="radio"
+                    name="packaging"
+                    value="bulk-hopper"
+                    checked
+                    class="mt-1 w-4 h-4 accent-[#162D22] focus:ring-forest-800"
+                  />
+                  <span class="text-sm leading-snug">
+                    <span class="block font-semibold text-ink">Bulk Hopper / Truckload</span>
+                    <span class="block font-mono text-xs text-forest-800 mt-0.5 tabular-nums">+$0 / short ton packaging</span>
+                    <span class="block text-xs text-ink-subtle mt-0.5">~22–25 short tons per covered hopper</span>
+                  </span>
+                </label>
+
+                <label class="flex items-start gap-2.5 p-3.5 rounded-md border border-hairline bg-white has-[:checked]:bg-forest-50 has-[:checked]:border-forest-800 cursor-pointer transition-colors">
+                  <input
+                    type="radio"
+                    name="packaging"
+                    value="super-sacks"
+                    class="mt-1 w-4 h-4 accent-[#162D22] focus:ring-forest-800"
+                  />
+                  <span class="text-sm leading-snug">
+                    <span class="block font-semibold text-ink">2,000 lb (1-Ton) Super Sacks / Totes</span>
+                    <span class="block font-mono text-xs text-forest-800 mt-0.5 tabular-nums">+$45 / short ton packaging</span>
+                    <span class="block text-xs text-ink-subtle mt-0.5">Moisture-lined FIBC totes (22 / flatbed)</span>
+                  </span>
+                </label>
+              </div>
+            </fieldset>
+
+            <div class="lg:col-span-5 flex flex-col justify-between">
+              <div>
+                <label for="freight-allowance-input" class="block text-sm font-semibold text-ink mb-1.5">
+                  Estimated Freight Allowance ($ / short ton)
+                </label>
+                <div class="relative flex items-center">
+                  <span class="absolute left-3.5 font-mono text-sm text-ink-subtle pointer-events-none">$</span>
+                  <input
+                    id="freight-allowance-input"
+                    type="number"
+                    min="0"
+                    max="1000"
+                    step="1"
+                    value="65"
+                    class="w-full pl-8 pr-24 py-2.5 text-base font-mono tabular-nums text-ink bg-white border border-hairline rounded-md focus:outline-none focus:ring-2 focus:ring-forest-800 focus:border-forest-800"
+                  />
+                  <span class="absolute right-3.5 font-mono text-xs text-ink-subtle pointer-events-none">/ short ton</span>
+                </div>
+                <p class="mt-1.5 text-xs text-ink-subtle leading-relaxed">
+                  Freight allowance is an estimate only and is subject to final terminal-to-farm-gate rate confirmation prior to deposit.
+                </p>
+              </div>
+              <p id="invoice-logistics-note" class="mt-3 pt-2.5 border-t border-hairline text-xs font-mono text-forest-800 tabular-nums">
+                Logistics estimate: Est. 1 Bulk Hopper truckload
+              </p>
+            </div>
+          </div>
+
+          <!-- Itemized Invoice Table + Summary & Milestones -->
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            <!-- Packaging Comparison Table -->
-            <div class="lg:col-span-8 overflow-x-auto border border-hairline rounded-lg bg-canvas">
-              <table class="w-full text-left border-collapse text-sm">
-                <thead>
-                  <tr class="border-b border-hairline bg-white">
-                    <th scope="col" class="py-3.5 px-5 font-display font-semibold text-ink">Specification</th>
-                    <th scope="col" class="py-3.5 px-5 font-display font-semibold text-ink">Bulk Hopper Truck</th>
-                    <th scope="col" class="py-3.5 px-5 font-display font-semibold text-ink">2,000 lb Totes (Super Sacks)</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-hairline">
-                  <tr class="bg-white/70">
-                    <th scope="row" class="py-3.5 px-5 font-medium text-ink">Standard Truckload</th>
-                    <td class="py-3.5 px-5 font-mono text-xs sm:text-sm text-ink-muted tabular-nums">24–25 short tons / load</td>
-                    <td class="py-3.5 px-5 font-mono text-xs sm:text-sm text-ink-muted tabular-nums">22–24 totes (22–24 short tons)</td>
-                  </tr>
-                  <tr>
-                    <th scope="row" class="py-3.5 px-5 font-medium text-ink">Containment</th>
-                    <td class="py-3.5 px-5 text-ink-muted">Covered bottom-drop or pneumatic hopper trailer</td>
-                    <td class="py-3.5 px-5 text-ink-muted">UV-stabilized FIBC woven polypropylene with moisture liner</td>
-                  </tr>
-                  <tr class="bg-white/70">
-                    <th scope="row" class="py-3.5 px-5 font-medium text-ink">Offloading Requirement</th>
-                    <td class="py-3.5 px-5 text-ink-muted">Drive-over pit, conveyor belt, or silo blower</td>
-                    <td class="py-3.5 px-5 text-ink-muted">Standard agricultural forklift or telehandler (4 corner loops)</td>
-                  </tr>
-                  <tr>
-                    <th scope="row" class="py-3.5 px-5 font-medium text-ink">Best Suited For</th>
-                    <td class="py-3.5 px-5 text-ink-muted">High-acreage row crops, co-ops, and on-farm bulk bins</td>
-                    <td class="py-3.5 px-5 text-ink-muted">Orchards, vineyards, custom blends, and staged seasonal storage</td>
-                  </tr>
-                </tbody>
-              </table>
+            <!-- Left: Itemized Commodity Table -->
+            <div class="lg:col-span-7 space-y-4">
+              <div class="print-card overflow-x-auto border border-hairline rounded-lg bg-white">
+                <table class="w-full text-left border-collapse text-sm">
+                  <thead>
+                    <tr class="border-b border-hairline bg-canvas">
+                      <th scope="col" class="py-3.5 px-4 sm:px-5 font-display font-semibold text-ink">Product</th>
+                      <th scope="col" class="py-3.5 px-3 sm:px-4 font-display font-semibold text-ink text-right">Tons</th>
+                      <th scope="col" class="py-3.5 px-3 sm:px-4 font-display font-semibold text-ink text-right">Unit Rate</th>
+                      <th scope="col" class="py-3.5 px-4 sm:px-5 font-display font-semibold text-ink text-right">Line Total</th>
+                    </tr>
+                  </thead>
+                  <tbody id="invoice-itemized-rows" data-testid="invoice-rows" class="divide-y divide-hairline">
+                    <!-- Rendered live by ES6 JS -->
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Totals Ledger -->
+              <div class="print-card border border-hairline rounded-lg bg-canvas p-5 sm:p-6">
+                <dl class="space-y-2.5 text-sm">
+                  <div class="flex items-baseline justify-between gap-4">
+                    <dt class="text-ink-muted">Total Ordered Volume</dt>
+                    <dd id="invoice-total-tons" data-testid="invoice-total-tons" class="font-mono font-medium text-ink tabular-nums">
+                      20 short tons
+                    </dd>
+                  </div>
+                  <div class="flex items-baseline justify-between gap-4">
+                    <dt class="text-ink-muted">Product Subtotal</dt>
+                    <dd id="invoice-product-subtotal" data-testid="invoice-product-subtotal" class="font-mono font-semibold text-ink tabular-nums">
+                      $15,000.00
+                    </dd>
+                  </div>
+                  <div class="flex items-baseline justify-between gap-4">
+                    <dt id="invoice-pack-freight-label" class="text-ink-muted">
+                      Packaging ($0/t) + Freight Estimate ($65/t)
+                    </dt>
+                    <dd id="invoice-pack-freight-total" data-testid="invoice-pack-freight-total" class="font-mono font-semibold text-ink tabular-nums">
+                      $1,300.00
+                    </dd>
+                  </div>
+                  <div class="pt-3 mt-3 border-t border-hairline flex items-baseline justify-between gap-4">
+                    <dt class="font-display text-base font-bold text-ink">Estimated Grand Total (USD)</dt>
+                    <dd id="invoice-grand-total" data-testid="invoice-grand-total" class="font-mono text-xl sm:text-2xl font-bold text-forest-950 tabular-nums">
+                      $16,300.00
+                    </dd>
+                  </div>
+                </dl>
+              </div>
             </div>
 
-            <!-- Settlement Structure Summary -->
-            <div class="lg:col-span-4 border border-hairline rounded-lg bg-forest-950 text-white p-6">
-              <p class="text-xs font-mono text-forest-100/75 mb-2">Commercial Payment Terms</p>
-              <h3 class="font-display text-lg font-bold tracking-tight">20 / 80 Farm-Gate Settlement</h3>
-              <dl class="mt-5 space-y-4 text-sm">
-                <div class="pb-4 border-b border-white/15">
-                  <dt class="font-mono text-xs text-forest-100/75">Upon Allocation Lock</dt>
-                  <dd class="mt-1 font-semibold tabular-nums">20% Order Deposit</dd>
-                  <dd class="mt-1 text-xs text-forest-100/80 leading-relaxed">
-                    Secures terminal inventory, CDFA-licensed carrier scheduling, and locked spot rate.
-                  </dd>
-                </div>
-                <div class="pb-4 border-b border-white/15">
-                  <dt class="font-mono text-xs text-forest-100/75">Upon Delivery &amp; Inspection</dt>
-                  <dd class="mt-1 font-semibold tabular-nums">80% Upon Bill of Lading Inspection at Farm Gate</dd>
-                  <dd class="mt-1 text-xs text-forest-100/80 leading-relaxed">
-                    Buyer verifies sealed scale weight ticket, Guaranteed Analysis lot number, and condition prior to release of balance.
-                  </dd>
-                </div>
-                <div>
-                  <dt class="font-mono text-xs text-forest-100/75">Accepted Payment Methods</dt>
-                  <dd class="mt-1 font-medium text-forest-100">ACH Transfer &middot; Domestic Wire &middot; Certified Check</dd>
-                </div>
-              </dl>
+            <!-- Right: Two High-Contrast Payment Milestone Cards -->
+            <div class="lg:col-span-5 space-y-4">
+              <!-- Milestone 1: 20% Deposit -->
+              <div class="print-card print-dark-box rounded-lg bg-forest-950 text-white p-6 border border-forest-900">
+                <p class="text-xs font-mono text-forest-100/75">Milestone 1 &middot; Allocation Lock</p>
+                <h3 class="mt-1.5 font-display text-base font-bold leading-snug">
+                  20% Deposit Due to Lock Tonnage &amp; Delivery Date
+                </h3>
+                <p
+                  id="invoice-deposit-amount"
+                  data-testid="invoice-deposit-amount"
+                  class="mt-4 font-mono text-3xl font-bold tracking-tight tabular-nums text-white"
+                >
+                  $3,260.00
+                </p>
+                <p class="mt-2.5 text-xs text-forest-100/80 leading-relaxed">
+                  Locks terminal inventory, carrier scheduling, and written price confirmation via our CDFA-licensed distribution partner.
+                </p>
+              </div>
+
+              <!-- Milestone 2: 80% Farm-Gate Balance -->
+              <div class="print-card rounded-lg bg-white text-ink p-6 border border-forest-800">
+                <p class="text-xs font-mono font-semibold text-brass">Milestone 2 &middot; Farm-Gate Delivery</p>
+                <h3 class="mt-1.5 font-display text-base font-bold leading-snug text-ink">
+                  80% Balance Due Upon Bill of Lading Inspection at Farm Gate
+                </h3>
+                <p
+                  id="invoice-balance-amount"
+                  data-testid="invoice-balance-amount"
+                  class="mt-4 font-mono text-3xl font-bold tracking-tight tabular-nums text-forest-950"
+                >
+                  $13,040.00
+                </p>
+                <p class="mt-2.5 text-xs text-ink-muted leading-relaxed">
+                  Payable upon physical inspection of certified scale weight ticket, Guaranteed Analysis lot number, and BOL via
+                  <strong class="font-semibold text-ink">ACH, Wire Transfer, or Certified Check</strong>.
+                </p>
+              </div>
             </div>
+          </div>
+
+          <!-- Mandatory Indicative Pricing & CDFA / CGL Compliance Notice -->
+          <div class="mt-6 p-4 sm:p-5 rounded-lg bg-canvas border border-hairline text-xs sm:text-sm text-ink-muted leading-relaxed">
+            <strong class="font-semibold text-ink">Commercial Estimation &amp; Compliance Notice:</strong>
+            Indicative pricing for invoice estimation. Orders are fulfilled via our CDFA-licensed distribution partner with Commercial General Liability insurance covering crop damage. Final delivered pricing is confirmed in writing prior to deposit.
           </div>
         </div>
       </section>
 
-      <!-- Section 4: Direct Quote & Catalog Email Generator -->
-      <section id="quote-request" aria-labelledby="quote-heading" class="scroll-mt-20 py-14 lg:py-20">
+      <!-- Section 4: Itemized "Request Formal Invoice" Email Dispatcher & Printable PDF -->
+      <section id="quote-request" aria-labelledby="quote-heading" class="scroll-mt-20 py-14 lg:py-20 no-print">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="max-w-2xl mb-10">
             <p class="text-xs font-mono text-ink-subtle mb-2">
-              Direct Desk RFQ <span aria-hidden="true" class="mx-1.5">&middot;</span> Sales.ansmaterials@gmail.com
+              Direct Desk Dispatch <span aria-hidden="true" class="mx-1.5">&middot;</span> Sales.ansmaterials@gmail.com
             </p>
             <h2 id="quote-heading" class="font-display text-2xl sm:text-3xl font-bold tracking-tight text-ink">
-              Direct Quote &amp; Catalog Request Generator
+              Request Formal Invoice &amp; Product Catalog
             </h2>
             <p class="mt-2.5 text-sm sm:text-base text-ink-muted leading-relaxed">
-              Complete your delivery specifications below to generate a structured RFQ email addressed to our San Rafael sales desk. Open directly in your mail client or copy the formatted request in one click.
+              Your selected commodities, tonnages, packaging format, freight allowance, and 20%/80% payment breakdown are automatically synced below. Enter your buyer details to dispatch a formal invoice request or save a printable PDF estimate.
             </p>
           </div>
 
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            <!-- Left Column: Validated RFQ Input Form -->
+            <!-- Left Column: Validated Buyer Details Form -->
             <form
               id="quote-form"
               novalidate
               class="lg:col-span-7 bg-white border border-hairline rounded-lg p-6 sm:p-8 space-y-6"
             >
-              <!-- Validation Summary Alert (hidden until validation error occurs) -->
+              <!-- Validation Summary Alert -->
               <div
                 id="form-error-banner"
                 role="alert"
@@ -442,12 +635,12 @@
               >
                 <p class="font-semibold flex items-center gap-2">
                   <i data-lucide="alert-circle" class="w-4 h-4 shrink-0 text-red-700" aria-hidden="true"></i>
-                  <span>Please complete the required fields before opening your email client.</span>
+                  <span>Please complete the required fields before dispatching your invoice request.</span>
                 </p>
                 <ul id="form-error-list" class="mt-2 list-disc list-inside text-xs text-red-800 space-y-1"></ul>
               </div>
 
-              <!-- Confirmation Banner (hidden until email opened or copied) -->
+              <!-- Confirmation Status Banner -->
               <div
                 id="form-success-banner"
                 role="status"
@@ -456,15 +649,28 @@
               >
                 <p class="font-semibold flex items-center gap-2">
                   <i data-lucide="check-circle-2" class="w-4 h-4 shrink-0 text-forest-800" aria-hidden="true"></i>
-                  <span id="form-success-message">Quote request formatted and ready.</span>
+                  <span id="form-success-message">Invoice request formatted and ready.</span>
                 </p>
               </div>
 
-              <!-- Row 1: Buyer Name & Farm/Business Name -->
+              <!-- Synced Order Snapshot Bar inside Form -->
+              <div class="p-4 rounded-md bg-canvas border border-hairline flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm">
+                <div>
+                  <span class="font-mono text-ink-subtle block text-xs">Synced From Pro-Forma Estimator</span>
+                  <span id="form-synced-summary" class="font-semibold text-ink tabular-nums">
+                    20 short tons &middot; Est. Total $16,300.00 (20% Deposit: $3,260.00)
+                  </span>
+                </div>
+                <a href="#catalog" class="text-xs font-semibold text-forest-800 hover:underline whitespace-nowrap">
+                  Edit Quantities
+                </a>
+              </div>
+
+              <!-- Row 1: Full Name & Farm / Business Name -->
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
                   <label for="buyer-name" class="block text-sm font-semibold text-ink mb-1.5">
-                    Buyer Name <span class="text-red-700" aria-hidden="true">*</span>
+                    Full Name <span class="text-red-700" aria-hidden="true">*</span>
                   </label>
                   <input
                     id="buyer-name"
@@ -473,7 +679,7 @@
                     required
                     autocomplete="name"
                     placeholder="e.g., Elena Vasquez"
-                    class="w-full px-3.5 py-2.5 text-sm text-ink bg-white border border-hairline rounded-md placeholder:text-ink-subtle/70 focus:outline-none focus:ring-2 focus:ring-forest-800 focus:border-forest-800"
+                    class="w-full px-3.5 py-2.5 text-base text-ink bg-white border border-hairline rounded-md placeholder:text-ink-subtle/70 focus:outline-none focus:ring-2 focus:ring-forest-800 focus:border-forest-800"
                   />
                   <p id="error-buyer-name" class="hidden mt-1 text-xs text-red-700"></p>
                 </div>
@@ -489,13 +695,13 @@
                     required
                     autocomplete="organization"
                     placeholder="e.g., Sonoma Valley Growers LLC"
-                    class="w-full px-3.5 py-2.5 text-sm text-ink bg-white border border-hairline rounded-md placeholder:text-ink-subtle/70 focus:outline-none focus:ring-2 focus:ring-forest-800 focus:border-forest-800"
+                    class="w-full px-3.5 py-2.5 text-base text-ink bg-white border border-hairline rounded-md placeholder:text-ink-subtle/70 focus:outline-none focus:ring-2 focus:ring-forest-800 focus:border-forest-800"
                   />
                   <p id="error-business-name" class="hidden mt-1 text-xs text-red-700"></p>
                 </div>
               </div>
 
-              <!-- Row 2: Delivery County & State + Callback Phone (optional) -->
+              <!-- Row 2: Delivery County & State + Buyer Email -->
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
                   <label for="delivery-location" class="block text-sm font-semibold text-ink mb-1.5">
@@ -507,189 +713,129 @@
                     type="text"
                     required
                     placeholder="e.g., Fresno County, CA"
-                    class="w-full px-3.5 py-2.5 text-sm text-ink bg-white border border-hairline rounded-md placeholder:text-ink-subtle/70 focus:outline-none focus:ring-2 focus:ring-forest-800 focus:border-forest-800"
+                    class="w-full px-3.5 py-2.5 text-base text-ink bg-white border border-hairline rounded-md placeholder:text-ink-subtle/70 focus:outline-none focus:ring-2 focus:ring-forest-800 focus:border-forest-800"
                   />
                   <p id="error-delivery-location" class="hidden mt-1 text-xs text-red-700"></p>
                 </div>
 
                 <div>
-                  <label for="buyer-phone" class="block text-sm font-semibold text-ink mb-1.5">
-                    Callback Phone <span class="text-xs font-normal text-ink-subtle">(Optional)</span>
+                  <label for="buyer-email" class="block text-sm font-semibold text-ink mb-1.5">
+                    Buyer Email <span class="text-red-700" aria-hidden="true">*</span>
                   </label>
                   <input
-                    id="buyer-phone"
-                    name="buyerPhone"
-                    type="tel"
-                    autocomplete="tel"
-                    placeholder="e.g., (559) 555-0194"
-                    class="w-full px-3.5 py-2.5 text-sm text-ink bg-white border border-hairline rounded-md placeholder:text-ink-subtle/70 focus:outline-none focus:ring-2 focus:ring-forest-800 focus:border-forest-800"
+                    id="buyer-email"
+                    name="buyerEmail"
+                    type="email"
+                    required
+                    autocomplete="email"
+                    placeholder="e.g., purchasing@valleygrowers.com"
+                    class="w-full px-3.5 py-2.5 text-base text-ink bg-white border border-hairline rounded-md placeholder:text-ink-subtle/70 focus:outline-none focus:ring-2 focus:ring-forest-800 focus:border-forest-800"
                   />
+                  <p id="error-buyer-email" class="hidden mt-1 text-xs text-red-700"></p>
                 </div>
               </div>
 
-              <!-- Row 3: Product Selection (Two-way synced with Catalog cards) -->
-              <fieldset class="pt-2 border-t border-hairline">
+              <!-- Row 3: Phone / WhatsApp -->
+              <div>
+                <label for="buyer-phone" class="block text-sm font-semibold text-ink mb-1.5">
+                  Phone / WhatsApp <span class="text-xs font-normal text-ink-subtle">(Recommended for freight scheduling)</span>
+                </label>
+                <input
+                  id="buyer-phone"
+                  name="buyerPhone"
+                  type="tel"
+                  autocomplete="tel"
+                  placeholder="e.g., +1 (559) 555-0194"
+                  class="w-full px-3.5 py-2.5 text-base text-ink bg-white border border-hairline rounded-md placeholder:text-ink-subtle/70 focus:outline-none focus:ring-2 focus:ring-forest-800 focus:border-forest-800"
+                />
+              </div>
+
+              <!-- Row 4: Document Checkboxes -->
+              <fieldset class="pt-3 border-t border-hairline space-y-2.5">
                 <legend class="text-sm font-semibold text-ink mb-1">
-                  Product Selection <span class="text-red-700" aria-hidden="true">*</span>
+                  Requested Documentation
                 </legend>
-                <p class="text-xs text-ink-subtle mb-3">
-                  Select one or more bulk commodities (synced automatically with the catalog above).
-                </p>
-
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="form-product-checkboxes">
-                  <!-- Populated by ES6 JS -->
-                </div>
-
-                <label class="mt-3 flex items-center gap-2.5 text-sm text-ink-muted cursor-pointer select-none">
+                <label class="flex items-start gap-2.5 text-sm text-ink cursor-pointer select-none">
                   <input
                     type="checkbox"
-                    id="include-full-catalog"
-                    name="includeFullCatalog"
-                    class="w-4 h-4 rounded border-hairline text-forest-900 focus:ring-forest-800 accent-[#162D22]"
+                    id="req-proforma-invoice"
+                    name="requestFormalInvoice"
+                    checked
+                    class="mt-0.5 w-4 h-4 rounded border-hairline accent-[#162D22] focus:ring-forest-800"
                   />
-                  <span>Also attach full Commercial Product Catalog, COI summary &amp; current spot sheet</span>
+                  <span>
+                    <span class="font-medium">Request Formal Pro-Forma Invoice</span>
+                    <span class="block text-xs text-ink-subtle">Written delivered quote, confirmed freight rate, and 20%/80% wire/ACH instructions</span>
+                  </span>
                 </label>
-                <p id="error-products" class="hidden mt-1.5 text-xs text-red-700"></p>
-              </fieldset>
 
-              <!-- Row 4: Packaging & Tonnage -->
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2 border-t border-hairline">
-                <div>
-                  <label for="tonnage-input" class="block text-sm font-semibold text-ink mb-1.5">
-                    Estimated Tonnage (Short Tons) <span class="text-red-700" aria-hidden="true">*</span>
-                  </label>
+                <label class="flex items-start gap-2.5 text-sm text-ink cursor-pointer select-none">
                   <input
-                    id="tonnage-input"
-                    name="tonnage"
-                    type="number"
-                    min="1"
-                    max="50000"
-                    step="1"
-                    required
-                    value="25"
-                    class="w-full px-3.5 py-2.5 text-sm font-mono tabular-nums text-ink bg-white border border-hairline rounded-md focus:outline-none focus:ring-2 focus:ring-forest-800 focus:border-forest-800"
+                    type="checkbox"
+                    id="req-catalog-sds"
+                    name="includeCatalogSds"
+                    checked
+                    class="mt-0.5 w-4 h-4 rounded border-hairline accent-[#162D22] focus:ring-forest-800"
                   />
-                  <!-- Quick Load Presets -->
-                  <div class="mt-2 flex flex-wrap gap-1.5" role="group" aria-label="Quick tonnage presets">
-                    <button
-                      type="button"
-                      data-tonnage-preset="25"
-                      class="tonnage-preset-btn px-2.5 py-1 text-xs font-mono text-ink-muted bg-canvas hover:bg-forest-100 hover:text-forest-950 border border-hairline rounded transition-colors whitespace-nowrap"
-                    >
-                      25 T
-                    </button>
-                    <button
-                      type="button"
-                      data-tonnage-preset="50"
-                      class="tonnage-preset-btn px-2.5 py-1 text-xs font-mono text-ink-muted bg-canvas hover:bg-forest-100 hover:text-forest-950 border border-hairline rounded transition-colors whitespace-nowrap"
-                    >
-                      50 T
-                    </button>
-                    <button
-                      type="button"
-                      data-tonnage-preset="100"
-                      class="tonnage-preset-btn px-2.5 py-1 text-xs font-mono text-ink-muted bg-canvas hover:bg-forest-100 hover:text-forest-950 border border-hairline rounded transition-colors whitespace-nowrap"
-                    >
-                      100 T
-                    </button>
-                    <button
-                      type="button"
-                      data-tonnage-preset="250"
-                      class="tonnage-preset-btn px-2.5 py-1 text-xs font-mono text-ink-muted bg-canvas hover:bg-forest-100 hover:text-forest-950 border border-hairline rounded transition-colors whitespace-nowrap"
-                    >
-                      250 T
-                    </button>
-                  </div>
-                  <p id="error-tonnage" class="hidden mt-1 text-xs text-red-700"></p>
-                </div>
-
-                <fieldset>
-                  <legend class="block text-sm font-semibold text-ink mb-1.5">
-                    Packaging Format <span class="text-red-700" aria-hidden="true">*</span>
-                  </legend>
-                  <div class="grid grid-cols-1 gap-2">
-                    <label class="flex items-start gap-2.5 p-2.5 rounded-md border border-hairline bg-canvas has-[:checked]:bg-forest-50 has-[:checked]:border-forest-800 cursor-pointer transition-colors">
-                      <input
-                        type="radio"
-                        name="packaging"
-                        value="Bulk Hopper Truck"
-                        checked
-                        class="mt-0.5 w-4 h-4 accent-[#162D22] focus:ring-forest-800"
-                      />
-                      <span class="text-sm">
-                        <span class="block font-semibold text-ink leading-tight">Bulk Hopper Truck</span>
-                        <span class="block text-xs text-ink-subtle mt-0.5">~25 short tons per covered hopper load</span>
-                      </span>
-                    </label>
-                    <label class="flex items-start gap-2.5 p-2.5 rounded-md border border-hairline bg-canvas has-[:checked]:bg-forest-50 has-[:checked]:border-forest-800 cursor-pointer transition-colors">
-                      <input
-                        type="radio"
-                        name="packaging"
-                        value="2,000 lb Totes (Super Sacks)"
-                        class="mt-0.5 w-4 h-4 accent-[#162D22] focus:ring-forest-800"
-                      />
-                      <span class="text-sm">
-                        <span class="block font-semibold text-ink leading-tight">2,000 lb Totes (Super Sacks)</span>
-                        <span class="block text-xs text-ink-subtle mt-0.5">1 short ton per lined FIBC tote (22–24 / flatbed)</span>
-                      </span>
-                    </label>
-                  </div>
-                  <p id="load-estimate-note" class="mt-2 text-xs font-mono text-forest-800 tabular-nums">
-                    Logistics estimate: 1 Bulk Hopper truckload
-                  </p>
-                </fieldset>
-              </div>
+                  <span>
+                    <span class="font-medium">Include Product Catalog, Guaranteed Analysis &amp; SDS</span>
+                    <span class="block text-xs text-ink-subtle">Full specification sheets, OSHA 16-section SDS PDFs, and CDFA/CGL compliance packet</span>
+                  </span>
+                </label>
+                <p id="error-order-items" class="hidden mt-1 text-xs text-red-700"></p>
+              </fieldset>
 
               <!-- Row 5: Optional Delivery Window / Notes -->
               <div>
                 <label for="delivery-notes" class="block text-sm font-semibold text-ink mb-1.5">
-                  Delivery Window &amp; Special Instructions <span class="text-xs font-normal text-ink-subtle">(Optional)</span>
+                  Delivery Window &amp; Farm-Gate Notes <span class="text-xs font-normal text-ink-subtle">(Optional)</span>
                 </label>
                 <textarea
                   id="delivery-notes"
                   name="notes"
                   rows="3"
-                  placeholder="Target delivery dates, farm gate access notes, or request for CDFA partner license &amp; CGL certificate copy..."
-                  class="w-full px-3.5 py-2.5 text-sm text-ink bg-white border border-hairline rounded-md placeholder:text-ink-subtle/70 focus:outline-none focus:ring-2 focus:ring-forest-800 focus:border-forest-800"
+                  placeholder="Preferred delivery window, offloading equipment (forklift / hopper pit), or split-load notes..."
+                  class="w-full px-3.5 py-2.5 text-base text-ink bg-white border border-hairline rounded-md placeholder:text-ink-subtle/70 focus:outline-none focus:ring-2 focus:ring-forest-800 focus:border-forest-800"
                 ></textarea>
               </div>
 
-              <!-- Action Row -->
-              <div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              <!-- Action Buttons -->
+              <div class="pt-2 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3">
                 <button
                   type="submit"
                   id="open-mailto-btn"
-                  class="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-forest-900 hover:bg-forest-800 rounded-md transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-forest-900"
+                  class="inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-white bg-forest-900 hover:bg-forest-800 rounded-md transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-forest-900"
                 >
                   <i data-lucide="mail" class="w-4 h-4" aria-hidden="true"></i>
-                  <span>Open Pre-Filled Email</span>
+                  <span>Request Formal Invoice via Email</span>
                 </button>
 
                 <button
                   type="button"
                   id="copy-email-btn"
-                  class="inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-ink bg-white hover:bg-canvas border border-hairline rounded-md transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-forest-800"
+                  class="inline-flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold text-ink bg-white hover:bg-canvas border border-hairline rounded-md transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-forest-800"
                 >
                   <i data-lucide="copy" class="w-4 h-4" aria-hidden="true"></i>
-                  <span id="copy-email-label">Copy Email Text</span>
+                  <span id="copy-email-label">Copy Invoice Request</span>
                 </button>
 
                 <button
                   type="button"
-                  id="reset-quote-btn"
-                  class="inline-flex items-center justify-center px-3 py-3 text-xs font-medium text-ink-subtle hover:text-ink underline-offset-4 hover:underline transition-colors whitespace-nowrap shrink-0 sm:ml-auto"
+                  id="print-pdf-btn"
+                  class="inline-flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold text-ink bg-canvas hover:bg-hairline/40 border border-hairline rounded-md transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-forest-800"
                 >
-                  Reset Form
+                  <i data-lucide="printer" class="w-4 h-4 text-forest-800" aria-hidden="true"></i>
+                  <span>Print / Save Estimate as PDF</span>
                 </button>
               </div>
             </form>
 
-            <!-- Right Column: Live Formatted Email Preview (Sticky on desktop) -->
+            <!-- Right Column: Live Read-Only Itemized Invoice Message Preview (Sticky on desktop) -->
             <aside aria-labelledby="preview-heading" class="lg:col-span-5 lg:sticky lg:top-24 bg-white border border-hairline rounded-lg overflow-hidden">
               <div class="px-6 py-4 bg-forest-950 text-white flex items-center justify-between gap-4">
                 <div>
                   <h3 id="preview-heading" class="font-display text-sm font-bold tracking-tight">
-                    Formatted RFQ Email Preview
+                    Live Itemized Invoice Request Preview
                   </h3>
                   <p class="text-xs font-mono text-forest-100/75 mt-0.5">
                     To: Sales.ansmaterials@gmail.com
@@ -700,7 +846,7 @@
                   href="mailto:Sales.ansmaterials@gmail.com"
                   class="text-xs font-semibold text-forest-100 hover:text-white underline underline-offset-4 whitespace-nowrap shrink-0"
                 >
-                  Direct mailto link
+                  Direct mailto
                 </a>
               </div>
 
@@ -708,21 +854,22 @@
                 <div class="pb-3 border-b border-hairline text-xs">
                   <span class="font-mono text-ink-subtle block mb-1">Subject</span>
                   <p id="preview-subject" data-testid="email-subject" class="font-mono font-medium text-ink break-words">
-                    RFQ / Catalog Request — Bulk Agricultural Commodities
+                    Invoice &amp; Catalog Request — [Farm/Business Name] ([County/State])
                   </p>
                 </div>
 
                 <div>
-                  <span class="font-mono text-xs text-ink-subtle block mb-2">Message Body</span>
+                  <span class="font-mono text-xs text-ink-subtle block mb-2">Read-Only Message Body</span>
                   <pre
                     id="preview-body"
                     data-testid="email-body"
+                    aria-readonly="true"
                     class="p-4 bg-canvas border border-hairline rounded-md text-xs font-mono leading-relaxed text-ink whitespace-pre-wrap break-words max-h-[440px] overflow-y-auto"
                   ></pre>
                 </div>
 
                 <div class="pt-3 border-t border-hairline text-xs text-ink-muted space-y-1.5">
-                  <p class="font-semibold text-ink">Need immediate spot tonnage pricing?</p>
+                  <p class="font-semibold text-ink">Direct San Rafael Sales Desk</p>
                   <p class="font-mono">
                     Tel:
                     <a href="tel:+12052055600" class="text-forest-800 hover:underline">+1 205-205-5600</a>
@@ -739,7 +886,7 @@
     </main>
 
     <!-- Quiet Institutional Footer -->
-    <footer class="bg-forest-950 text-forest-100/85 border-t border-forest-900">
+    <footer class="bg-forest-950 text-forest-100/85 border-t border-forest-900 no-print">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-8 pb-10 border-b border-white/10">
           <div class="md:col-span-5">
@@ -778,9 +925,9 @@
             </p>
             <ul class="space-y-1.5 text-forest-100/80">
               <li><a href="#compliance" class="hover:text-white hover:underline underline-offset-2">Compliance &amp; Terms</a></li>
-              <li><a href="#catalog" class="hover:text-white hover:underline underline-offset-2">Commodity Catalog</a></li>
-              <li><a href="#logistics" class="hover:text-white hover:underline underline-offset-2">Packaging &amp; Logistics</a></li>
-              <li><a href="#quote-request" class="hover:text-white hover:underline underline-offset-2">Direct Quote Generator</a></li>
+              <li><a href="#catalog" class="hover:text-white hover:underline underline-offset-2">Catalog &amp; Pricing</a></li>
+              <li><a href="#proforma-invoice" class="hover:text-white hover:underline underline-offset-2">Pro-Forma Invoice Calculator</a></li>
+              <li><a href="#quote-request" class="hover:text-white hover:underline underline-offset-2">Request Formal Invoice</a></li>
             </ul>
           </div>
         </div>
@@ -798,7 +945,7 @@
     <dialog
       id="spec-modal"
       aria-labelledby="modal-product-title"
-      class="w-[calc(100%-2rem)] max-w-2xl rounded-lg p-0 border border-hairline bg-white text-ink shadow-xl m-auto"
+      class="w-[calc(100%-2rem)] max-w-2xl rounded-lg p-0 border border-hairline bg-white text-ink shadow-xl m-auto no-print"
     >
       <div class="flex flex-col max-h-[88vh]">
         <!-- Modal Header -->
@@ -821,7 +968,7 @@
           </button>
         </div>
 
-        <!-- Modal Tabs (Interactive Segmented Control) -->
+        <!-- Modal Tabs -->
         <div class="px-6 pt-4 border-b border-hairline bg-white flex items-center gap-6" role="tablist" aria-label="Technical specification views">
           <button
             type="button"
@@ -847,7 +994,6 @@
 
         <!-- Modal Scrollable Body -->
         <div class="p-6 overflow-y-auto flex-1">
-          <!-- Panel 1: Guaranteed Analysis -->
           <div id="panel-analysis" role="tabpanel" aria-labelledby="tab-analysis" class="space-y-5">
             <div class="overflow-x-auto border border-hairline rounded-md">
               <table class="w-full text-left border-collapse text-sm">
@@ -860,7 +1006,6 @@
             </div>
           </div>
 
-          <!-- Panel 2: SDS Safety Details -->
           <div id="panel-sds" role="tabpanel" aria-labelledby="tab-sds" class="hidden space-y-4">
             <div id="modal-sds-rows" class="divide-y divide-hairline border border-hairline rounded-md bg-white"></div>
             <div class="text-xs text-ink-muted leading-relaxed bg-canvas border border-hairline rounded-md p-4">
@@ -874,11 +1019,11 @@
         <div class="px-6 py-4 border-t border-hairline bg-canvas flex flex-wrap items-center justify-between gap-3">
           <button
             type="button"
-            id="modal-toggle-quote-btn"
+            id="modal-add-truckload-btn"
             class="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-forest-900 hover:bg-forest-800 rounded-md transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-forest-900"
           >
             <i data-lucide="plus" class="w-4 h-4" aria-hidden="true"></i>
-            <span id="modal-toggle-quote-label">Include in Quote</span>
+            <span id="modal-add-truckload-label">Add +22t (1 Truckload) to Estimate</span>
           </button>
 
           <button
@@ -892,8 +1037,41 @@
       </div>
     </dialog>
 
-    <!-- Pure Logic & Data Module (Self-contained ES6, also verifiable by automated unit tests) -->
+    <!-- =========================================================================
+         PURE LOGIC, CENTRALIZED PRICING CONFIG & DATA MODULE
+         (Self-contained ES6; also verified directly by automated unit tests)
+         ========================================================================= -->
     <script id="portal-logic">
+      /* -----------------------------------------------------------------------
+       * CENTRALIZED PRICING CONFIGURATION — Edit unit rates & adders here
+       * ----------------------------------------------------------------------- */
+      const PRICING_CONFIG = Object.freeze({
+        currency: 'USD',
+        unitLabel: 'short ton',
+        depositRate: 0.20,
+        balanceRate: 0.80,
+        defaultFreightPerTon: 65,
+        products: Object.freeze({
+          'urea-46-0-0': Object.freeze({ unitRate: 750, defaultTons: 20 }),
+          'dap-18-46-0': Object.freeze({ unitRate: 945, defaultTons: 0 }),
+          'potash-0-0-60': Object.freeze({ unitRate: 525, defaultTons: 0 }),
+        }),
+        packaging: Object.freeze({
+          'bulk-hopper': Object.freeze({
+            id: 'bulk-hopper',
+            label: 'Bulk Hopper / Truckload',
+            adderPerTon: 0,
+            tonsPerLoad: 25,
+          }),
+          'super-sacks': Object.freeze({
+            id: 'super-sacks',
+            label: '2,000 lb (1-Ton) Super Sacks / Totes',
+            adderPerTon: 45,
+            tonsPerLoad: 22,
+          }),
+        }),
+      });
+
       const COMPANY_INFO = Object.freeze({
         name: 'A & S Landscape Materials, Inc.',
         address: '580 Jacoby Street, San Rafael, CA 94901',
@@ -901,7 +1079,10 @@
         whatsapp: '+1 (985) 299-8282',
         email: 'Sales.ansmaterials@gmail.com',
         webUrlSlot: '[Web URL — Add Later]',
-        paymentTerms: '20% Deposit / 80% Upon Bill of Lading Inspection at Farm Gate (ACH, Wire, or Certified Check)',
+        paymentTerms:
+          '20% Deposit Due to Lock Tonnage & Delivery Date / 80% Balance Due Upon Bill of Lading Inspection at Farm Gate (ACH, Wire Transfer, or Certified Check)',
+        complianceNotice:
+          'Indicative pricing for invoice estimation. Orders are fulfilled via our CDFA-licensed distribution partner with Commercial General Liability insurance covering crop damage. Final delivered pricing is confirmed in writing prior to deposit.',
       });
 
       const COMMODITIES = Object.freeze([
@@ -1021,24 +1202,89 @@
         },
       ]);
 
-      function calculateLogisticsEstimate(tonnage, packaging) {
-        const tons = Number(tonnage);
-        if (!Number.isFinite(tons) || tons <= 0) {
-          return 'Enter valid short tonnage to calculate load count';
-        }
-        if (packaging === '2,000 lb Totes (Super Sacks)') {
-          const totes = Math.ceil(tons);
-          const flatbeds = Math.max(1, Math.ceil(totes / 22));
-          return `${totes.toLocaleString('en-US')} × 2,000 lb Super Sacks (est. ${flatbeds} flatbed ${flatbeds === 1 ? 'load' : 'loads'})`;
-        }
-        const hoppers = Math.max(1, Math.ceil(tons / 25));
-        return `Est. ${hoppers} Bulk Hopper ${hoppers === 1 ? 'truckload' : 'truckloads'} (~25 short tons/load)`;
+      function formatUSD(amount) {
+        const safe = Number.isFinite(Number(amount)) ? Number(amount) : 0;
+        return new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: PRICING_CONFIG.currency,
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }).format(safe);
       }
 
-      function validateQuoteInput(input) {
+      function sanitizeNonNegativeNumber(val) {
+        const parsed = Number(val);
+        if (!Number.isFinite(parsed) || parsed < 0) return 0;
+        return Math.round(parsed * 100) / 100;
+      }
+
+      function calculateLogisticsEstimate(totalTons, packagingId) {
+        const tons = sanitizeNonNegativeNumber(totalTons);
+        if (tons <= 0) {
+          return 'Add short tonnage above to estimate truckloads or totes';
+        }
+        if (packagingId === 'super-sacks') {
+          const totes = Math.ceil(tons);
+          const flatbeds = Math.max(1, Math.ceil(totes / PRICING_CONFIG.packaging['super-sacks'].tonsPerLoad));
+          return `${totes.toLocaleString('en-US')} × 2,000 lb Super Sacks (est. ${flatbeds} flatbed ${flatbeds === 1 ? 'load' : 'loads'})`;
+        }
+        const hoppers = Math.max(1, Math.ceil(tons / PRICING_CONFIG.packaging['bulk-hopper'].tonsPerLoad));
+        return `Est. ${hoppers} Bulk Hopper ${hoppers === 1 ? 'truckload' : 'truckloads'} (~22–25 short tons/load)`;
+      }
+
+      function calculateProFormaInvoice({ quantities, packagingId, freightPerTon }) {
+        const pkg = PRICING_CONFIG.packaging[packagingId] || PRICING_CONFIG.packaging['bulk-hopper'];
+        const safeFreightPerTon = sanitizeNonNegativeNumber(freightPerTon);
+
+        const lineItems = COMMODITIES.map((product) => {
+          const pricing = PRICING_CONFIG.products[product.id];
+          const rawQty = quantities && quantities[product.id] !== undefined ? quantities[product.id] : 0;
+          const tons = sanitizeNonNegativeNumber(rawQty);
+          const unitRate = pricing.unitRate;
+          const lineTotal = Math.round(tons * unitRate * 100) / 100;
+          return {
+            id: product.id,
+            shortName: product.shortName,
+            name: product.name,
+            grade: product.grade,
+            cas: product.cas,
+            tons,
+            unitRate,
+            lineTotal,
+          };
+        });
+
+        const selectedItems = lineItems.filter((item) => item.tons > 0);
+        const totalTons = Math.round(selectedItems.reduce((sum, item) => sum + item.tons, 0) * 100) / 100;
+        const productSubtotal = Math.round(selectedItems.reduce((sum, item) => sum + item.lineTotal, 0) * 100) / 100;
+        const packagingTotal = Math.round(totalTons * pkg.adderPerTon * 100) / 100;
+        const freightTotal = Math.round(totalTons * safeFreightPerTon * 100) / 100;
+        const packagingAndFreightTotal = Math.round((packagingTotal + freightTotal) * 100) / 100;
+        const grandTotal = Math.round((productSubtotal + packagingAndFreightTotal) * 100) / 100;
+        const depositAmount = Math.round(grandTotal * PRICING_CONFIG.depositRate * 100) / 100;
+        const balanceAmount = Math.round((grandTotal - depositAmount) * 100) / 100;
+
+        return {
+          packaging: pkg,
+          freightPerTon: safeFreightPerTon,
+          lineItems,
+          selectedItems,
+          totalTons,
+          productSubtotal,
+          packagingTotal,
+          freightTotal,
+          packagingAndFreightTotal,
+          grandTotal,
+          depositAmount,
+          balanceAmount,
+          logisticsEstimate: calculateLogisticsEstimate(totalTons, pkg.id),
+        };
+      }
+
+      function validateInvoiceRequest(input, invoice) {
         const errors = {};
         if (!input.buyerName || !input.buyerName.trim()) {
-          errors.buyerName = 'Buyer Name is required.';
+          errors.buyerName = 'Full Name is required.';
         }
         if (!input.businessName || !input.businessName.trim()) {
           errors.businessName = 'Farm or Business Name is required.';
@@ -1046,13 +1292,15 @@
         if (!input.deliveryLocation || !input.deliveryLocation.trim()) {
           errors.deliveryLocation = 'Delivery County & State is required.';
         }
-        const hasProducts = Array.isArray(input.selectedProductIds) && input.selectedProductIds.length > 0;
-        if (!hasProducts && !input.includeFullCatalog) {
-          errors.products = 'Select at least one commodity or check the full catalog request option.';
+        const email = (input.buyerEmail || '').trim();
+        if (!email) {
+          errors.buyerEmail = 'Buyer Email is required.';
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          errors.buyerEmail = 'Enter a valid Buyer Email address.';
         }
-        const tons = Number(input.tonnage);
-        if (!Number.isFinite(tons) || tons < 1 || tons > 50000) {
-          errors.tonnage = 'Enter a valid estimated tonnage between 1 and 50,000 short tons.';
+        const hasTons = invoice && invoice.totalTons > 0;
+        if (!hasTons && !input.includeCatalogSds) {
+          errors.orderItems = 'Add tonnage for at least one commodity above or check "Include Product Catalog, Guaranteed Analysis & SDS".';
         }
         return {
           valid: Object.keys(errors).length === 0,
@@ -1060,71 +1308,67 @@
         };
       }
 
-      function formatQuoteEmail(input) {
-        const buyerName = (input.buyerName || '').trim() || '[Buyer Name]';
-        const businessName = (input.businessName || '').trim() || '[Farm / Business Name]';
-        const deliveryLocation = (input.deliveryLocation || '').trim() || '[Delivery County & State]';
+      function formatInvoiceEmail(input, invoice) {
+        const buyerName = (input.buyerName || '').trim() || '[Full Name]';
+        const businessName = (input.businessName || '').trim() || '[Farm/Business Name]';
+        const deliveryLocation = (input.deliveryLocation || '').trim() || '[County/State]';
+        const buyerEmail = (input.buyerEmail || '').trim() || '[Buyer Email]';
         const buyerPhone = (input.buyerPhone || '').trim();
-        const packaging = input.packaging || 'Bulk Hopper Truck';
-        const tonsNumber = Number(input.tonnage);
-        const tonnageText =
-          Number.isFinite(tonsNumber) && tonsNumber > 0
-            ? `${tonsNumber.toLocaleString('en-US')} Short Tons`
-            : '[Tonnage Not Specified]';
-        const logisticsSummary = calculateLogisticsEstimate(tonsNumber, packaging);
+        const notes = (input.notes || '').trim();
 
-        const selectedProducts = COMMODITIES.filter((c) =>
-          Array.isArray(input.selectedProductIds) && input.selectedProductIds.includes(c.id)
-        );
+        const subject = `Invoice & Catalog Request — ${businessName} (${deliveryLocation})`;
 
-        const productTitleSummary =
-          selectedProducts.length > 0
-            ? selectedProducts.map((p) => p.grade).join(', ')
-            : 'Full Commercial Catalog';
+        const requestedDocs = [];
+        if (input.requestFormalInvoice) {
+          requestedDocs.push('Formal Pro-Forma Invoice & 20%/80% Settlement Instructions');
+        }
+        if (input.includeCatalogSds) {
+          requestedDocs.push('Product Catalog, Guaranteed Analysis & OSHA SDS Documentation');
+        }
 
-        const subject = `Quote & Catalog Request: ${productTitleSummary} (${tonnageText}) — ${businessName}`;
+        const itemLines =
+          invoice.selectedItems.length > 0
+            ? invoice.selectedItems
+                .map(
+                  (item) =>
+                    `  - ${item.name} (${item.grade} | CAS ${item.cas}): ${item.tons} short tons × ${formatUSD(
+                      item.unitRate
+                    )}/ton = ${formatUSD(item.lineTotal)}`
+                )
+                .join('\n')
+            : '  - No specific tonnage entered (Catalog & Current Spot Rate Sheet Request)';
 
-        const productLines =
-          selectedProducts.length > 0
-            ? selectedProducts.map((p) => `  - ${p.name} (${p.grade} | CAS ${p.cas})`).join('\n')
-            : '  - Full Commercial Fertilizer Catalog & Current Spot Pricing Sheet';
-
-        const catalogLine = input.includeFullCatalog
-          ? '\n  - Also Requested: Full Commercial Catalog, COI Summary & Spot Price Sheet'
-          : '';
-
-        const notesSection =
-          input.notes && input.notes.trim()
-            ? `\nSPECIAL INSTRUCTIONS / DELIVERY WINDOW:\n${input.notes.trim()}\n`
-            : '';
-
-        const phoneLine = buyerPhone ? `Callback Phone:      ${buyerPhone}\n` : '';
-
-        const body = [
+        const bodyParts = [
           `Hello ${COMPANY_INFO.name} Sales Desk,`,
           '',
-          'Please provide a commercial delivered quote, Guaranteed Analysis, and SDS documentation for the following agricultural commodity order:',
+          'Please issue a formal written quote / pro-forma invoice and documentation for the following agricultural commodities inquiry:',
           '',
-          'BUYER & DELIVERY DETAILS:',
-          `Buyer Name:          ${buyerName}`,
+          'BUYER & DELIVERY INFORMATION:',
+          `Full Name:           ${buyerName}`,
           `Farm / Business:     ${businessName}`,
           `Delivery Location:   ${deliveryLocation}`,
-          phoneLine ? phoneLine.trimEnd() : null,
+          `Buyer Email:         ${buyerEmail}`,
+          buyerPhone ? `Phone / WhatsApp:    ${buyerPhone}` : null,
+          requestedDocs.length > 0 ? `Requested Items:     ${requestedDocs.join(' + ')}` : null,
           '',
-          'COMMODITY & LOGISTICS SPECIFICATION:',
-          'Requested Products:',
-          `${productLines}${catalogLine}`,
-          `Estimated Tonnage:   ${tonnageText}`,
-          `Packaging Format:    ${packaging}`,
-          `Logistics Estimate:  ${logisticsSummary}`,
-          notesSection ? notesSection.trimEnd() : null,
+          'ITEMIZED ORDER ESTIMATE:',
+          itemLines,
           '',
-          'COMMERCIAL COMPLIANCE & TERMS ACKNOWLEDGED:',
-          '- CDFA-Licensed Distribution Partner Fulfillment',
-          '- Commercial General Liability (CGL) Crop Damage Coverage',
-          `- Payment Terms: ${COMPANY_INFO.paymentTerms}`,
+          `Total Volume:        ${invoice.totalTons} short tons`,
+          `Packaging Format:    ${invoice.packaging.label} (+${formatUSD(invoice.packaging.adderPerTon)}/ton)`,
+          `Freight Allowance:   ${formatUSD(invoice.freightPerTon)}/ton (Estimate — subject to final confirmation)`,
+          `Logistics Estimate:  ${invoice.logisticsEstimate}`,
           '',
-          'Please reply with FOB / delivered farm-gate pricing, estimated dispatch lead time, and lot documentation.',
+          'PRO-FORMA FINANCIAL BREAKDOWN (INDICATIVE USD):',
+          `Product Subtotal:               ${formatUSD(invoice.productSubtotal)}`,
+          `Packaging + Freight Estimate:   ${formatUSD(invoice.packagingAndFreightTotal)}`,
+          `Estimated Order Total:          ${formatUSD(invoice.grandTotal)}`,
+          `20% Deposit (Lock Allocation):  ${formatUSD(invoice.depositAmount)}`,
+          `80% Farm-Gate BOL Balance:      ${formatUSD(invoice.balanceAmount)} (ACH, Wire, or Certified Check)`,
+          notes ? `\nDELIVERY WINDOW / NOTES:\n${notes}` : null,
+          '',
+          'COMPLIANCE & TERMS NOTE:',
+          COMPANY_INFO.complianceNotice,
           '',
           'Best regards,',
           buyerName,
@@ -1133,10 +1377,9 @@
           '---',
           `${COMPANY_INFO.name} | ${COMPANY_INFO.address}`,
           `Tel: ${COMPANY_INFO.phone} | WhatsApp: ${COMPANY_INFO.whatsapp} | Email: ${COMPANY_INFO.email}`,
-        ]
-          .filter((line) => line !== null)
-          .join('\n');
+        ].filter((line) => line !== null);
 
+        const body = bodyParts.join('\n');
         const mailtoHref = `mailto:${COMPANY_INFO.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
         return {
@@ -1148,14 +1391,16 @@
         };
       }
 
-      // Expose pure helpers for testing if running in browser or VM context
       if (typeof globalThis !== 'undefined') {
         globalThis.__ANS_PORTAL_LOGIC__ = {
+          PRICING_CONFIG,
           COMPANY_INFO,
           COMMODITIES,
+          formatUSD,
           calculateLogisticsEstimate,
-          validateQuoteInput,
-          formatQuoteEmail,
+          calculateProFormaInvoice,
+          validateInvoiceRequest,
+          formatInvoiceEmail,
         };
       }
     </script>
@@ -1166,39 +1411,63 @@
         'use strict';
 
         const state = {
-          selectedProductIds: ['urea-46-0-0'],
+          quantities: {
+            'urea-46-0-0': PRICING_CONFIG.products['urea-46-0-0'].defaultTons,
+            'dap-18-46-0': PRICING_CONFIG.products['dap-18-46-0'].defaultTons,
+            'potash-0-0-60': PRICING_CONFIG.products['potash-0-0-60'].defaultTons,
+          },
+          packagingId: 'bulk-hopper',
+          freightPerTon: PRICING_CONFIG.defaultFreightPerTon,
           activeModalProductId: null,
           activeModalTab: 'analysis',
           hasAttemptedSubmit: false,
           copyTimeoutId: null,
         };
 
-        // DOM Elements
+        // Catalog & Invoice Elements
         const productGridEl = document.getElementById('product-grid');
-        const selectionCountEl = document.getElementById('catalog-selection-count');
-        const formProductCheckboxesEl = document.getElementById('form-product-checkboxes');
+        const catalogSummaryEl = document.getElementById('catalog-selection-summary');
+        const resetAllTonsBtnEl = document.getElementById('reset-all-tons-btn');
+
+        const packagingGroupEl = document.getElementById('packaging-options-group');
+        const freightInputEl = document.getElementById('freight-allowance-input');
+        const invoiceLogisticsNoteEl = document.getElementById('invoice-logistics-note');
+        const invoiceRowsEl = document.getElementById('invoice-itemized-rows');
+        const invoiceTotalTonsEl = document.getElementById('invoice-total-tons');
+        const invoiceProductSubtotalEl = document.getElementById('invoice-product-subtotal');
+        const invoicePackFreightLabelEl = document.getElementById('invoice-pack-freight-label');
+        const invoicePackFreightTotalEl = document.getElementById('invoice-pack-freight-total');
+        const invoiceGrandTotalEl = document.getElementById('invoice-grand-total');
+        const invoiceDepositEl = document.getElementById('invoice-deposit-amount');
+        const invoiceBalanceEl = document.getElementById('invoice-balance-amount');
+
+        // Form & Preview Elements
         const quoteFormEl = document.getElementById('quote-form');
+        const formSyncedSummaryEl = document.getElementById('form-synced-summary');
         const buyerNameEl = document.getElementById('buyer-name');
         const businessNameEl = document.getElementById('business-name');
         const deliveryLocationEl = document.getElementById('delivery-location');
+        const buyerEmailEl = document.getElementById('buyer-email');
         const buyerPhoneEl = document.getElementById('buyer-phone');
-        const includeFullCatalogEl = document.getElementById('include-full-catalog');
-        const tonnageInputEl = document.getElementById('tonnage-input');
+        const reqProformaEl = document.getElementById('req-proforma-invoice');
+        const reqCatalogSdsEl = document.getElementById('req-catalog-sds');
         const deliveryNotesEl = document.getElementById('delivery-notes');
-        const loadEstimateNoteEl = document.getElementById('load-estimate-note');
 
         const previewSubjectEl = document.getElementById('preview-subject');
         const previewBodyEl = document.getElementById('preview-body');
         const directMailtoAnchorEl = document.getElementById('direct-mailto-anchor');
-
         const copyEmailBtnEl = document.getElementById('copy-email-btn');
         const copyEmailLabelEl = document.getElementById('copy-email-label');
-        const resetQuoteBtnEl = document.getElementById('reset-quote-btn');
+        const printPdfBtnEl = document.getElementById('print-pdf-btn');
+        const invoicePrintShortcutBtnEl = document.getElementById('invoice-print-shortcut-btn');
 
         const formErrorBannerEl = document.getElementById('form-error-banner');
         const formErrorListEl = document.getElementById('form-error-list');
         const formSuccessBannerEl = document.getElementById('form-success-banner');
         const formSuccessMessageEl = document.getElementById('form-success-message');
+
+        const printDateLineEl = document.getElementById('print-date-line');
+        const printBuyerLineEl = document.getElementById('print-buyer-line');
 
         // Modal Elements
         const specModalEl = document.getElementById('spec-modal');
@@ -1212,8 +1481,7 @@
         const tabSdsEl = document.getElementById('tab-sds');
         const panelAnalysisEl = document.getElementById('panel-analysis');
         const panelSdsEl = document.getElementById('panel-sds');
-        const modalToggleQuoteBtnEl = document.getElementById('modal-toggle-quote-btn');
-        const modalToggleQuoteLabelEl = document.getElementById('modal-toggle-quote-label');
+        const modalAddTruckloadBtnEl = document.getElementById('modal-add-truckload-btn');
 
         function refreshIcons() {
           if (window.lucide && typeof window.lucide.createIcons === 'function') {
@@ -1221,32 +1489,34 @@
           }
         }
 
-        function getSelectedPackaging() {
-          const checked = quoteFormEl.querySelector('input[name="packaging"]:checked');
-          return checked ? checked.value : 'Bulk Hopper Truck';
-        }
-
-        function getCurrentFormInput() {
+        function getCurrentBuyerInput() {
           return {
             buyerName: buyerNameEl.value,
             businessName: businessNameEl.value,
             deliveryLocation: deliveryLocationEl.value,
+            buyerEmail: buyerEmailEl.value,
             buyerPhone: buyerPhoneEl.value,
-            selectedProductIds: [...state.selectedProductIds],
-            includeFullCatalog: includeFullCatalogEl.checked,
-            tonnage: tonnageInputEl.value,
-            packaging: getSelectedPackaging(),
+            requestFormalInvoice: reqProformaEl.checked,
+            includeCatalogSds: reqCatalogSdsEl.checked,
             notes: deliveryNotesEl.value,
           };
         }
 
-        function renderCatalogCards() {
+        function getCurrentInvoice() {
+          return calculateProFormaInvoice({
+            quantities: state.quantities,
+            packagingId: state.packagingId,
+            freightPerTon: state.freightPerTon,
+          });
+        }
+
+        function renderCatalogCardsOnce() {
           productGridEl.innerHTML = COMMODITIES.map((product) => {
-            const isSelected = state.selectedProductIds.includes(product.id);
+            const unitRate = PRICING_CONFIG.products[product.id].unitRate;
             const highlightRows = product.highlights
               .map(
                 (item) => `
-                  <div class="flex items-baseline justify-between gap-2 py-2 border-b border-hairline/70 last:border-b-0">
+                  <div class="flex items-baseline justify-between gap-2 py-1.5 border-b border-hairline/70 last:border-b-0">
                     <dt class="text-xs text-ink-subtle">${item.label}</dt>
                     <dd class="text-xs font-mono font-semibold text-ink tabular-nums">${item.value}</dd>
                   </div>
@@ -1257,7 +1527,7 @@
             return `
               <article
                 data-product-card="${product.id}"
-                class="flex flex-col bg-white border ${isSelected ? 'border-forest-800 ring-1 ring-forest-800/20' : 'border-hairline'} rounded-lg overflow-hidden transition-all duration-150 hover:-translate-y-0.5"
+                class="flex flex-col bg-white border border-hairline rounded-lg overflow-hidden transition-all duration-150"
               >
                 <div class="relative aspect-[4/3] bg-canvas border-b border-hairline overflow-hidden">
                   <img
@@ -1275,82 +1545,181 @@
                 </div>
 
                 <div class="p-6 flex-1 flex flex-col">
-                  <!-- Clean unboxed metadata (Zero-Pill Discipline) -->
-                  <p class="text-xs font-mono text-ink-subtle">
-                    Grade ${product.grade} <span aria-hidden="true" class="mx-1">&middot;</span> CAS ${product.cas} <span aria-hidden="true" class="mx-1">&middot;</span> ${product.formula}
+                  <!-- Unboxed technical metadata (identical baseline across all 3 cards) -->
+                  <p class="text-xs font-mono text-ink-subtle whitespace-nowrap">
+                    Grade ${product.grade} <span aria-hidden="true" class="mx-1">&middot;</span> CAS ${product.cas}
                   </p>
 
                   <h3 class="mt-2 font-display text-xl font-bold text-ink tracking-tight">
                     ${product.name}
                   </h3>
 
-                  <p class="mt-2 text-sm text-ink-muted leading-relaxed">
+                  <p
+                    data-testid="price-${product.id}"
+                    class="mt-1.5 font-mono text-base font-bold text-forest-900 tabular-nums"
+                  >
+                    $${unitRate.toLocaleString('en-US')} <span class="text-xs font-normal text-ink-subtle">/ short ton</span>
+                  </p>
+
+                  <p class="mt-2.5 text-sm text-ink-muted leading-relaxed">
                     ${product.summary}
                   </p>
 
-                  <dl class="mt-5 pt-2 border-t border-hairline">
+                  <dl class="mt-4 pt-2 border-t border-hairline">
                     ${highlightRows}
                   </dl>
 
-                  <div class="mt-6 pt-4 border-t border-hairline flex flex-col gap-2.5 mt-auto">
+                  <!-- Short Ton Quantity Selector & Live Line-Item Subtotal -->
+                  <div class="mt-5 pt-4 border-t border-hairline space-y-3">
+                    <div class="flex items-center justify-between gap-3">
+                      <label for="qty-${product.id}" class="text-xs font-semibold text-ink">
+                        Order Quantity (Short Tons)
+                      </label>
+                      <span
+                        id="card-subtotal-${product.id}"
+                        data-testid="card-subtotal-${product.id}"
+                        class="font-mono text-xs sm:text-sm font-bold text-forest-900 tabular-nums"
+                      >
+                        $0.00
+                      </span>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                      <input
+                        id="qty-${product.id}"
+                        type="number"
+                        min="0"
+                        max="50000"
+                        step="1"
+                        inputmode="numeric"
+                        data-qty-input="${product.id}"
+                        aria-label="Short tons of ${product.shortName}"
+                        value="${state.quantities[product.id]}"
+                        class="w-full px-3 py-2 text-base font-mono tabular-nums text-ink bg-canvas border border-hairline rounded-md focus:bg-white focus:outline-none focus:ring-2 focus:ring-forest-800 focus:border-forest-800"
+                      />
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2" role="group" aria-label="Quick add tonnage for ${product.shortName}">
+                      <button
+                        type="button"
+                        data-action="add-tons"
+                        data-product-id="${product.id}"
+                        data-tons="10"
+                        aria-label="Add 10 tons of ${product.shortName}"
+                        class="px-2.5 py-2 text-xs font-mono font-medium text-ink bg-canvas hover:bg-forest-100 hover:text-forest-950 border border-hairline rounded-md transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-800"
+                      >
+                        +10t
+                      </button>
+                      <button
+                        type="button"
+                        data-action="add-tons"
+                        data-product-id="${product.id}"
+                        data-tons="22"
+                        aria-label="Add 22 tons (1 truckload) of ${product.shortName}"
+                        class="px-2.5 py-2 text-xs font-mono font-medium text-forest-950 bg-forest-50 hover:bg-forest-100 border border-forest-800/30 rounded-md transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-800"
+                      >
+                        +22t (1 Truckload)
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Guaranteed Analysis & SDS Action -->
+                  <div class="mt-4 pt-4 border-t border-hairline mt-auto">
                     <button
                       type="button"
                       data-action="inspect-sds"
                       data-product-id="${product.id}"
                       aria-label="Inspect Guaranteed Analysis and SDS for ${product.shortName}"
-                      class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-ink bg-canvas hover:bg-hairline/40 border border-hairline rounded-md transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-800"
+                      class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-ink bg-white hover:bg-canvas border border-hairline rounded-md transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-800"
                     >
                       <i data-lucide="file-text" class="w-4 h-4 text-forest-800" aria-hidden="true"></i>
                       <span>Guaranteed Analysis &amp; SDS</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      data-action="toggle-quote"
-                      data-product-id="${product.id}"
-                      aria-pressed="${isSelected ? 'true' : 'false'}"
-                      aria-label="${isSelected ? 'Remove' : 'Include'} ${product.shortName} in Quote Request"
-                      class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-md transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-forest-900 ${
-                        isSelected
-                          ? 'bg-forest-900 text-white hover:bg-forest-800'
-                          : 'bg-white text-forest-900 border border-forest-900 hover:bg-forest-50'
-                      }"
-                    >
-                      <i data-lucide="${isSelected ? 'check' : 'plus'}" class="w-4 h-4" aria-hidden="true"></i>
-                      <span>${isSelected ? 'Included in Quote' : 'Include in Quote'}</span>
                     </button>
                   </div>
                 </div>
               </article>
             `;
           }).join('');
-
-          const count = state.selectedProductIds.length;
-          selectionCountEl.textContent =
-            count === 1 ? '1 product selected for quote' : `${count} products selected for quote`;
         }
 
-        function renderFormProductCheckboxes() {
-          formProductCheckboxesEl.innerHTML = COMMODITIES.map((product) => {
-            const isChecked = state.selectedProductIds.includes(product.id);
-            return `
-              <label class="flex items-start gap-2.5 p-3 rounded-md border ${
-                isChecked ? 'border-forest-800 bg-forest-50' : 'border-hairline bg-canvas'
-              } cursor-pointer transition-colors">
-                <input
-                  type="checkbox"
-                  name="products"
-                  value="${product.id}"
-                  ${isChecked ? 'checked' : ''}
-                  class="mt-0.5 w-4 h-4 rounded accent-[#162D22] focus:ring-forest-800"
-                />
-                <span class="text-xs sm:text-sm leading-snug">
-                  <span class="block font-semibold text-ink">${product.shortName}</span>
-                  <span class="block font-mono text-[11px] text-ink-subtle mt-0.5">CAS ${product.cas}</span>
-                </span>
-              </label>
+        function syncCardsWithInvoice(invoice) {
+          invoice.lineItems.forEach((item) => {
+            const cardEl = productGridEl.querySelector(`[data-product-card="${item.id}"]`);
+            const inputEl = document.getElementById(`qty-${item.id}`);
+            const subtotalEl = document.getElementById(`card-subtotal-${item.id}`);
+
+            if (inputEl && document.activeElement !== inputEl) {
+              inputEl.value = String(item.tons);
+            }
+            if (subtotalEl) {
+              subtotalEl.textContent = item.tons > 0 ? `Subtotal: ${formatUSD(item.lineTotal)}` : '$0.00';
+              subtotalEl.className = `font-mono text-xs sm:text-sm font-bold tabular-nums ${
+                item.tons > 0 ? 'text-forest-900' : 'text-ink-subtle'
+              }`;
+            }
+            if (cardEl) {
+              cardEl.classList.toggle('border-forest-800', item.tons > 0);
+              cardEl.classList.toggle('ring-1', item.tons > 0);
+              cardEl.classList.toggle('ring-forest-800/20', item.tons > 0);
+              cardEl.classList.toggle('border-hairline', item.tons === 0);
+            }
+          });
+
+          catalogSummaryEl.textContent = `${invoice.totalTons.toLocaleString('en-US')} short ${
+            invoice.totalTons === 1 ? 'ton' : 'tons'
+          } selected · ${formatUSD(invoice.productSubtotal)} product subtotal`;
+        }
+
+        function renderProFormaInvoice(invoice) {
+          if (invoice.selectedItems.length === 0) {
+            invoiceRowsEl.innerHTML = `
+              <tr>
+                <td colspan="4" class="py-8 px-5 text-center text-sm text-ink-subtle">
+                  No commodity tonnage selected yet. Enter short tons or click <strong>+10t</strong> / <strong>+22t</strong> on any product above to build your Pro-Forma Invoice.
+                </td>
+              </tr>
             `;
-          }).join('');
+          } else {
+            invoiceRowsEl.innerHTML = invoice.selectedItems
+              .map(
+                (item) => `
+                  <tr class="odd:bg-white even:bg-canvas/50">
+                    <th scope="row" class="py-3.5 px-4 sm:px-5 font-medium text-ink">
+                      <span class="block font-semibold">${item.name}</span>
+                      <span class="block font-mono text-xs text-ink-subtle whitespace-nowrap">${item.grade} &middot; CAS ${item.cas}</span>
+                    </th>
+                    <td class="py-3.5 px-3 sm:px-4 font-mono text-right text-ink tabular-nums whitespace-nowrap">
+                      ${item.tons.toLocaleString('en-US')}
+                    </td>
+                    <td class="py-3.5 px-3 sm:px-4 font-mono text-right text-ink-muted tabular-nums whitespace-nowrap">
+                      ${formatUSD(item.unitRate)}
+                    </td>
+                    <td class="py-3.5 px-4 sm:px-5 font-mono font-semibold text-right text-ink tabular-nums whitespace-nowrap">
+                      ${formatUSD(item.lineTotal)}
+                    </td>
+                  </tr>
+                `
+              )
+              .join('');
+          }
+
+          invoiceTotalTonsEl.textContent = `${invoice.totalTons.toLocaleString('en-US')} short ${
+            invoice.totalTons === 1 ? 'ton' : 'tons'
+          }`;
+          invoiceProductSubtotalEl.textContent = formatUSD(invoice.productSubtotal);
+          invoicePackFreightLabelEl.textContent = `Packaging ($${invoice.packaging.adderPerTon}/t) + Freight Estimate ($${invoice.freightPerTon}/t)`;
+          invoicePackFreightTotalEl.textContent = formatUSD(invoice.packagingAndFreightTotal);
+          invoiceGrandTotalEl.textContent = formatUSD(invoice.grandTotal);
+          invoiceDepositEl.textContent = formatUSD(invoice.depositAmount);
+          invoiceBalanceEl.textContent = formatUSD(invoice.balanceAmount);
+          invoiceLogisticsNoteEl.textContent = `Logistics estimate: ${invoice.logisticsEstimate}`;
+
+          formSyncedSummaryEl.textContent =
+            invoice.totalTons > 0
+              ? `${invoice.totalTons.toLocaleString('en-US')} short tons · Est. Total ${formatUSD(
+                  invoice.grandTotal
+                )} (20% Deposit: ${formatUSD(invoice.depositAmount)})`
+              : '0 short tons selected (Catalog & Spot Pricing Request)';
         }
 
         function renderValidationErrors(errors) {
@@ -1358,8 +1727,8 @@
             ['buyerName', buyerNameEl, document.getElementById('error-buyer-name')],
             ['businessName', businessNameEl, document.getElementById('error-business-name')],
             ['deliveryLocation', deliveryLocationEl, document.getElementById('error-delivery-location')],
-            ['products', null, document.getElementById('error-products')],
-            ['tonnage', tonnageInputEl, document.getElementById('error-tonnage')],
+            ['buyerEmail', buyerEmailEl, document.getElementById('error-buyer-email')],
+            ['orderItems', null, document.getElementById('error-order-items')],
           ];
 
           const activeMessages = [];
@@ -1397,52 +1766,35 @@
           }
         }
 
-        function updateQuotePreview() {
-          const input = getCurrentFormInput();
-          const formatted = formatQuoteEmail(input);
+        function updateAll() {
+          const invoice = getCurrentInvoice();
+          const buyerInput = getCurrentBuyerInput();
+          const formatted = formatInvoiceEmail(buyerInput, invoice);
+
+          syncCardsWithInvoice(invoice);
+          renderProFormaInvoice(invoice);
 
           previewSubjectEl.textContent = formatted.subject;
           previewBodyEl.textContent = formatted.body;
           directMailtoAnchorEl.setAttribute('href', formatted.mailtoHref);
-          loadEstimateNoteEl.textContent = `Logistics estimate: ${calculateLogisticsEstimate(
-            input.tonnage,
-            input.packaging
-          )}`;
+
+          // Update print letterhead metadata
+          printDateLineEl.textContent = `Estimate Date: ${new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          })}`;
+          const preparedFor = [buyerInput.businessName.trim(), buyerInput.deliveryLocation.trim()]
+            .filter(Boolean)
+            .join(' — ');
+          printBuyerLineEl.textContent = preparedFor ? `Prepared for: ${preparedFor}` : 'Indicative Commercial Estimate';
 
           if (state.hasAttemptedSubmit) {
-            const validation = validateQuoteInput(input);
+            const validation = validateInvoiceRequest(buyerInput, invoice);
             renderValidationErrors(validation.errors);
           }
 
-          return formatted;
-        }
-
-        function toggleProductSelection(productId) {
-          const idx = state.selectedProductIds.indexOf(productId);
-          if (idx === -1) {
-            state.selectedProductIds.push(productId);
-          } else {
-            state.selectedProductIds.splice(idx, 1);
-          }
-          renderCatalogCards();
-          renderFormProductCheckboxes();
-          updateQuotePreview();
-          if (state.activeModalProductId === productId) {
-            updateModalQuoteToggleButton(productId);
-          }
-          refreshIcons();
-        }
-
-        function updateModalQuoteToggleButton(productId) {
-          const isSelected = state.selectedProductIds.includes(productId);
-          modalToggleQuoteLabelEl.textContent = isSelected
-            ? 'Included in Quote (Click to Remove)'
-            : 'Include in Quote';
-          const iconEl = modalToggleQuoteBtnEl.querySelector('svg, i');
-          if (iconEl) {
-            iconEl.outerHTML = `<i data-lucide="${isSelected ? 'check' : 'plus'}" class="w-4 h-4" aria-hidden="true"></i>`;
-          }
-          refreshIcons();
+          return { invoice, buyerInput, formatted };
         }
 
         function setModalTab(tabName) {
@@ -1471,7 +1823,8 @@
           if (!product) return;
 
           state.activeModalProductId = product.id;
-          modalProductMetaEl.textContent = `Grade ${product.grade} · CAS ${product.cas} · ${product.formula}`;
+          const unitRate = PRICING_CONFIG.products[product.id].unitRate;
+          modalProductMetaEl.textContent = `Grade ${product.grade} · CAS ${product.cas} · $${unitRate.toLocaleString('en-US')} / short ton`;
           modalProductTitleEl.textContent = `${product.name} — Guaranteed Analysis & SDS`;
 
           modalAnalysisRowsEl.innerHTML = product.analysis
@@ -1497,8 +1850,6 @@
             .join('');
 
           setModalTab('analysis');
-          updateModalQuoteToggleButton(product.id);
-
           if (typeof specModalEl.showModal === 'function') {
             specModalEl.showModal();
           } else {
@@ -1526,7 +1877,7 @@
               await navigator.clipboard.writeText(text);
               return true;
             } catch (_err) {
-              // Fallback below if clipboard API restricted inside iframe
+              // Fallback for restricted iframe environments
             }
           }
           const textarea = document.createElement('textarea');
@@ -1546,60 +1897,76 @@
           return copied;
         }
 
-        // Event Delegation: Catalog Cards
+        // Catalog Quantity Input Listener
+        productGridEl.addEventListener('input', (event) => {
+          const inputEl = event.target.closest('input[data-qty-input]');
+          if (!inputEl) return;
+          const productId = inputEl.getAttribute('data-qty-input');
+          state.quantities[productId] = sanitizeNonNegativeNumber(inputEl.value);
+          formSuccessBannerEl.classList.add('hidden');
+          updateAll();
+        });
+
+        // Catalog Click Delegation (+10t, +22t, Inspect SDS)
         productGridEl.addEventListener('click', (event) => {
           const btn = event.target.closest('button[data-action]');
           if (!btn) return;
           const action = btn.getAttribute('data-action');
           const productId = btn.getAttribute('data-product-id');
-          if (action === 'inspect-sds') {
+
+          if (action === 'add-tons') {
+            const delta = Number(btn.getAttribute('data-tons')) || 0;
+            state.quantities[productId] = sanitizeNonNegativeNumber((state.quantities[productId] || 0) + delta);
+            const inputEl = document.getElementById(`qty-${productId}`);
+            if (inputEl) inputEl.value = String(state.quantities[productId]);
+            formSuccessBannerEl.classList.add('hidden');
+            updateAll();
+          } else if (action === 'inspect-sds') {
             openSpecModal(productId);
-          } else if (action === 'toggle-quote') {
-            toggleProductSelection(productId);
           }
         });
 
-        // Event Delegation: Form Product Checkboxes
-        formProductCheckboxesEl.addEventListener('change', (event) => {
-          const checkbox = event.target.closest('input[type="checkbox"][name="products"]');
-          if (!checkbox) return;
-          const productId = checkbox.value;
-          const exists = state.selectedProductIds.includes(productId);
-          if (checkbox.checked && !exists) {
-            state.selectedProductIds.push(productId);
-          } else if (!checkbox.checked && exists) {
-            state.selectedProductIds = state.selectedProductIds.filter((id) => id !== productId);
-          }
-          renderCatalogCards();
-          renderFormProductCheckboxes();
-          updateQuotePreview();
-          refreshIcons();
+        // Reset All Quantities Button
+        resetAllTonsBtnEl.addEventListener('click', () => {
+          COMMODITIES.forEach((c) => {
+            state.quantities[c.id] = 0;
+            const inputEl = document.getElementById(`qty-${c.id}`);
+            if (inputEl) inputEl.value = '0';
+          });
+          formSuccessBannerEl.classList.add('hidden');
+          updateAll();
         });
 
-        // Tonnage Preset Buttons
-        quoteFormEl.addEventListener('click', (event) => {
-          const presetBtn = event.target.closest('button[data-tonnage-preset]');
-          if (!presetBtn) return;
-          tonnageInputEl.value = presetBtn.getAttribute('data-tonnage-preset');
-          updateQuotePreview();
+        // Packaging Format Radio Change
+        packagingGroupEl.addEventListener('change', (event) => {
+          const radio = event.target.closest('input[name="packaging"]');
+          if (!radio) return;
+          state.packagingId = radio.value;
+          updateAll();
         });
 
-        // Live Preview Updates on Input / Change
+        // Freight Allowance Input
+        freightInputEl.addEventListener('input', () => {
+          state.freightPerTon = sanitizeNonNegativeNumber(freightInputEl.value);
+          updateAll();
+        });
+
+        // Buyer Form Live Sync
         quoteFormEl.addEventListener('input', () => {
           formSuccessBannerEl.classList.add('hidden');
-          updateQuotePreview();
+          updateAll();
         });
         quoteFormEl.addEventListener('change', () => {
           formSuccessBannerEl.classList.add('hidden');
-          updateQuotePreview();
+          updateAll();
         });
 
-        // Form Submit: Validate & Open Pre-Filled mailto:
+        // Submit: Request Formal Invoice via Email
         quoteFormEl.addEventListener('submit', (event) => {
           event.preventDefault();
           state.hasAttemptedSubmit = true;
-          const input = getCurrentFormInput();
-          const validation = validateQuoteInput(input);
+          const { invoice, buyerInput, formatted } = updateAll();
+          const validation = validateInvoiceRequest(buyerInput, invoice);
           renderValidationErrors(validation.errors);
 
           if (!validation.valid) {
@@ -1609,12 +1976,10 @@
             return;
           }
 
-          const formatted = updateQuotePreview();
           showSuccessMessage(
-            `Opening pre-filled email to ${formatted.to}. If your mail client does not launch automatically, use "Copy Email Text".`
+            `Opening pre-filled email to ${formatted.to}. If your mail client does not launch, click "Copy Invoice Request".`
           );
 
-          // Trigger native mailto without window.open / window.alert
           const link = document.createElement('a');
           link.href = formatted.mailtoHref;
           link.style.display = 'none';
@@ -1623,47 +1988,46 @@
           document.body.removeChild(link);
         });
 
-        // Copy Email Button
+        // Copy Invoice Request Button
         copyEmailBtnEl.addEventListener('click', async () => {
-          const formatted = updateQuotePreview();
+          const { formatted } = updateAll();
           const copied = await copyTextToClipboard(formatted.clipboardText);
           if (state.copyTimeoutId) clearTimeout(state.copyTimeoutId);
 
           if (copied) {
-            copyEmailLabelEl.textContent = 'Copied to Clipboard';
-            showSuccessMessage('Complete RFQ email (recipient, subject, and body) copied to your clipboard.');
+            copyEmailLabelEl.textContent = 'Copied!';
+            showSuccessMessage('Itemized invoice request copied to clipboard.');
           } else {
             copyEmailLabelEl.textContent = 'Select Preview to Copy';
           }
 
           state.copyTimeoutId = setTimeout(() => {
-            copyEmailLabelEl.textContent = 'Copy Email Text';
+            copyEmailLabelEl.textContent = 'Copy Invoice Request';
           }, 2600);
         });
 
-        // Reset Form Button
-        resetQuoteBtnEl.addEventListener('click', () => {
-          state.hasAttemptedSubmit = false;
-          state.selectedProductIds = ['urea-46-0-0'];
-          quoteFormEl.reset();
-          tonnageInputEl.value = '25';
-          renderValidationErrors({});
-          formSuccessBannerEl.classList.add('hidden');
-          renderCatalogCards();
-          renderFormProductCheckboxes();
-          updateQuotePreview();
-          refreshIcons();
-        });
+        // Print / Save Estimate as PDF Buttons
+        function triggerPrintEstimate() {
+          updateAll();
+          window.print();
+        }
+        printPdfBtnEl.addEventListener('click', triggerPrintEstimate);
+        invoicePrintShortcutBtnEl.addEventListener('click', triggerPrintEstimate);
 
         // Modal Event Listeners
         modalCloseBtnEl.addEventListener('click', closeSpecModal);
         modalDoneBtnEl.addEventListener('click', closeSpecModal);
         tabAnalysisEl.addEventListener('click', () => setModalTab('analysis'));
         tabSdsEl.addEventListener('click', () => setModalTab('sds'));
-        modalToggleQuoteBtnEl.addEventListener('click', () => {
-          if (state.activeModalProductId) {
-            toggleProductSelection(state.activeModalProductId);
-          }
+        modalAddTruckloadBtnEl.addEventListener('click', () => {
+          if (!state.activeModalProductId) return;
+          state.quantities[state.activeModalProductId] = sanitizeNonNegativeNumber(
+            (state.quantities[state.activeModalProductId] || 0) + 22
+          );
+          const inputEl = document.getElementById(`qty-${state.activeModalProductId}`);
+          if (inputEl) inputEl.value = String(state.quantities[state.activeModalProductId]);
+          updateAll();
+          closeSpecModal();
         });
         specModalEl.addEventListener('click', (event) => {
           if (event.target === specModalEl) {
@@ -1673,9 +2037,8 @@
 
         // Initial Render
         document.getElementById('footer-year').textContent = String(new Date().getFullYear());
-        renderCatalogCards();
-        renderFormProductCheckboxes();
-        updateQuotePreview();
+        renderCatalogCardsOnce();
+        updateAll();
         refreshIcons();
       })();
     </script>

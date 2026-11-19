@@ -3,15 +3,34 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 
-interface Commodity {
-  id: string;
-  shortName: string;
-  name: string;
-  grade: string;
-  cas: string;
+interface PricingConfig {
+  currency: string;
+  unitLabel: string;
+  depositRate: number;
+  balanceRate: number;
+  defaultFreightPerTon: number;
+  products: Record<string, { unitRate: number; defaultTons: number }>;
+  packaging: Record<string, { id: string; label: string; adderPerTon: number; tonsPerLoad: number }>;
+}
+
+interface InvoiceBreakdown {
+  packaging: { id: string; label: string; adderPerTon: number };
+  freightPerTon: number;
+  lineItems: Array<{ id: string; tons: number; unitRate: number; lineTotal: number }>;
+  selectedItems: Array<{ id: string; name: string; grade: string; cas: string; tons: number; unitRate: number; lineTotal: number }>;
+  totalTons: number;
+  productSubtotal: number;
+  packagingTotal: number;
+  freightTotal: number;
+  packagingAndFreightTotal: number;
+  grandTotal: number;
+  depositAmount: number;
+  balanceAmount: number;
+  logisticsEstimate: string;
 }
 
 interface PortalLogic {
+  PRICING_CONFIG: PricingConfig;
   COMPANY_INFO: {
     name: string;
     address: string;
@@ -19,29 +38,37 @@ interface PortalLogic {
     whatsapp: string;
     email: string;
     webUrlSlot: string;
-    paymentTerms: string;
   };
-  COMMODITIES: readonly Commodity[];
-  calculateLogisticsEstimate: (tonnage: number | string, packaging: string) => string;
-  validateQuoteInput: (input: {
-    buyerName?: string;
-    businessName?: string;
-    deliveryLocation?: string;
-    selectedProductIds?: string[];
-    includeFullCatalog?: boolean;
-    tonnage?: number | string;
-  }) => { valid: boolean; errors: Record<string, string> };
-  formatQuoteEmail: (input: {
-    buyerName?: string;
-    businessName?: string;
-    deliveryLocation?: string;
-    buyerPhone?: string;
-    selectedProductIds?: string[];
-    includeFullCatalog?: boolean;
-    tonnage?: number | string;
-    packaging?: string;
-    notes?: string;
-  }) => {
+  COMMODITIES: ReadonlyArray<{ id: string; grade: string; cas: string }>;
+  formatUSD: (amount: number) => string;
+  calculateProFormaInvoice: (params: {
+    quantities: Record<string, number>;
+    packagingId: string;
+    freightPerTon: number;
+  }) => InvoiceBreakdown;
+  validateInvoiceRequest: (
+    input: {
+      buyerName?: string;
+      businessName?: string;
+      deliveryLocation?: string;
+      buyerEmail?: string;
+      includeCatalogSds?: boolean;
+    },
+    invoice: InvoiceBreakdown
+  ) => { valid: boolean; errors: Record<string, string> };
+  formatInvoiceEmail: (
+    input: {
+      buyerName?: string;
+      businessName?: string;
+      deliveryLocation?: string;
+      buyerEmail?: string;
+      buyerPhone?: string;
+      requestFormalInvoice?: boolean;
+      includeCatalogSds?: boolean;
+      notes?: string;
+    },
+    invoice: InvoiceBreakdown
+  ) => {
     to: string;
     subject: string;
     body: string;
@@ -62,96 +89,126 @@ function loadPortalLogicFromIndexHtml(): PortalLogic {
 
 const logic = loadPortalLogicFromIndexHtml();
 
-test('company metadata and required 3 commodities match specification', () => {
+test('PRICING_CONFIG and company metadata match exact indicative rates and San Rafael details', () => {
+  assert.equal(logic.PRICING_CONFIG.products['urea-46-0-0'].unitRate, 750);
+  assert.equal(logic.PRICING_CONFIG.products['urea-46-0-0'].defaultTons, 20);
+  assert.equal(logic.PRICING_CONFIG.products['dap-18-46-0'].unitRate, 945);
+  assert.equal(logic.PRICING_CONFIG.products['dap-18-46-0'].defaultTons, 0);
+  assert.equal(logic.PRICING_CONFIG.products['potash-0-0-60'].unitRate, 525);
+  assert.equal(logic.PRICING_CONFIG.products['potash-0-0-60'].defaultTons, 0);
+
+  assert.equal(logic.PRICING_CONFIG.packaging['bulk-hopper'].adderPerTon, 0);
+  assert.equal(logic.PRICING_CONFIG.packaging['super-sacks'].adderPerTon, 45);
+  assert.equal(logic.PRICING_CONFIG.defaultFreightPerTon, 65);
+
   assert.equal(logic.COMPANY_INFO.name, 'A & S Landscape Materials, Inc.');
-  assert.equal(logic.COMPANY_INFO.email, 'Sales.ansmaterials@gmail.com');
   assert.equal(logic.COMPANY_INFO.address, '580 Jacoby Street, San Rafael, CA 94901');
   assert.equal(logic.COMPANY_INFO.phone, '+1 205-205-5600');
   assert.equal(logic.COMPANY_INFO.whatsapp, '+1 (985) 299-8282');
-  assert.equal(logic.COMPANY_INFO.webUrlSlot, '[Web URL — Add Later]');
-
-  assert.equal(logic.COMMODITIES.length, 3);
-  const gradesAndCas = logic.COMMODITIES.map((c) => `${c.grade}:${c.cas}`);
-  assert.deepEqual(gradesAndCas, [
-    '46-0-0:57-13-6',
-    '18-46-0:7783-28-0',
-    '0-0-60:7447-40-7',
-  ]);
+  assert.equal(logic.COMPANY_INFO.email, 'Sales.ansmaterials@gmail.com');
 });
 
-test('calculateLogisticsEstimate computes hopper truckloads and 2,000 lb totes accurately', () => {
-  assert.equal(
-    logic.calculateLogisticsEstimate(25, 'Bulk Hopper Truck'),
-    'Est. 1 Bulk Hopper truckload (~25 short tons/load)'
-  );
-  assert.equal(
-    logic.calculateLogisticsEstimate(50, 'Bulk Hopper Truck'),
-    'Est. 2 Bulk Hopper truckloads (~25 short tons/load)'
-  );
-  assert.equal(
-    logic.calculateLogisticsEstimate(48, '2,000 lb Totes (Super Sacks)'),
-    '48 × 2,000 lb Super Sacks (est. 3 flatbed loads)'
-  );
-  assert.match(logic.calculateLogisticsEstimate(0, 'Bulk Hopper Truck'), /Enter valid short tonnage/);
+test('calculateProFormaInvoice computes default 20t Urea bulk hopper totals and 20%/80% milestones', () => {
+  const inv = logic.calculateProFormaInvoice({
+    quantities: { 'urea-46-0-0': 20, 'dap-18-46-0': 0, 'potash-0-0-60': 0 },
+    packagingId: 'bulk-hopper',
+    freightPerTon: 65,
+  });
+
+  assert.equal(inv.totalTons, 20);
+  assert.equal(inv.selectedItems.length, 1);
+  assert.equal(inv.productSubtotal, 15000);
+  assert.equal(inv.packagingTotal, 0);
+  assert.equal(inv.freightTotal, 1300);
+  assert.equal(inv.packagingAndFreightTotal, 1300);
+  assert.equal(inv.grandTotal, 16300);
+  assert.equal(inv.depositAmount, 3260);
+  assert.equal(inv.balanceAmount, 13040);
 });
 
-test('validateQuoteInput rejects missing required fields without silent fallbacks', () => {
-  const emptyResult = logic.validateQuoteInput({
-    buyerName: '',
-    businessName: '   ',
-    deliveryLocation: '',
-    selectedProductIds: [],
-    includeFullCatalog: false,
-    tonnage: 0,
+test('calculateProFormaInvoice computes multi-product Super Sacks (+$45/t) and custom freight accurately', () => {
+  const inv = logic.calculateProFormaInvoice({
+    quantities: { 'urea-46-0-0': 20, 'dap-18-46-0': 22, 'potash-0-0-60': 10 },
+    packagingId: 'super-sacks',
+    freightPerTon: 80,
   });
 
-  assert.equal(emptyResult.valid, false);
-  assert.ok(emptyResult.errors.buyerName);
-  assert.ok(emptyResult.errors.businessName);
-  assert.ok(emptyResult.errors.deliveryLocation);
-  assert.ok(emptyResult.errors.products);
-  assert.ok(emptyResult.errors.tonnage);
-
-  const validResult = logic.validateQuoteInput({
-    buyerName: 'Elena Vasquez',
-    businessName: 'Sonoma Valley Growers LLC',
-    deliveryLocation: 'Sonoma County, CA',
-    selectedProductIds: ['urea-46-0-0', 'potash-0-0-60'],
-    includeFullCatalog: false,
-    tonnage: 48,
-  });
-
-  assert.equal(validResult.valid, true);
-  assert.deepEqual(validResult.errors, {});
+  // Product subtotal: 20*750 (15,000) + 22*945 (20,790) + 10*525 (5,250) = 41,040
+  // Total tons: 52
+  // Packaging: 52 * 45 = 2,340
+  // Freight: 52 * 80 = 4,160
+  // Pack + Freight: 6,500
+  // Grand Total: 47,540
+  // 20% Deposit: 9,508; 80% Balance: 38,032
+  assert.equal(inv.totalTons, 52);
+  assert.equal(inv.selectedItems.length, 3);
+  assert.equal(inv.productSubtotal, 41040);
+  assert.equal(inv.packagingTotal, 2340);
+  assert.equal(inv.freightTotal, 4160);
+  assert.equal(inv.packagingAndFreightTotal, 6500);
+  assert.equal(inv.grandTotal, 47540);
+  assert.equal(inv.depositAmount, 9508);
+  assert.equal(inv.balanceAmount, 38032);
+  assert.equal(inv.depositAmount + inv.balanceAmount, inv.grandTotal);
 });
 
-test('formatQuoteEmail generates complete mailto URI and formatted RFQ body', () => {
-  const result = logic.formatQuoteEmail({
-    buyerName: 'Elena Vasquez',
-    businessName: 'Sonoma Valley Growers LLC',
-    deliveryLocation: 'Sonoma County, CA',
-    buyerPhone: '(707) 555-0144',
-    selectedProductIds: ['urea-46-0-0', 'dap-18-46-0'],
-    includeFullCatalog: true,
-    tonnage: 50,
-    packaging: '2,000 lb Totes (Super Sacks)',
-    notes: 'Deliveries preferred before April 15.',
+test('validateInvoiceRequest rejects missing required fields and invalid email', () => {
+  const emptyInv = logic.calculateProFormaInvoice({
+    quantities: { 'urea-46-0-0': 0, 'dap-18-46-0': 0, 'potash-0-0-60': 0 },
+    packagingId: 'bulk-hopper',
+    freightPerTon: 65,
   });
 
-  assert.equal(result.to, 'Sales.ansmaterials@gmail.com');
-  assert.match(result.subject, /46-0-0, 18-46-0/);
-  assert.match(result.subject, /50 Short Tons/);
-  assert.match(result.subject, /Sonoma Valley Growers LLC/);
+  const invalid = logic.validateInvoiceRequest(
+    {
+      buyerName: '',
+      businessName: '',
+      deliveryLocation: '',
+      buyerEmail: 'not-an-email',
+      includeCatalogSds: false,
+    },
+    emptyInv
+  );
 
-  assert.match(result.body, /Granular Urea \(46-0-0 \| CAS 57-13-6\)/);
-  assert.match(result.body, /Diammonium Phosphate \(DAP\) \(18-46-0 \| CAS 7783-28-0\)/);
-  assert.match(result.body, /2,000 lb Totes \(Super Sacks\)/);
-  assert.match(result.body, /20% Deposit \/ 80% Upon Bill of Lading Inspection at Farm Gate/);
-  assert.match(result.body, /CDFA-Licensed Distribution Partner Fulfillment/);
-  assert.match(result.body, /Deliveries preferred before April 15\./);
+  assert.equal(invalid.valid, false);
+  assert.ok(invalid.errors.buyerName);
+  assert.ok(invalid.errors.businessName);
+  assert.ok(invalid.errors.deliveryLocation);
+  assert.ok(invalid.errors.buyerEmail);
+  assert.ok(invalid.errors.orderItems);
+});
 
-  assert.ok(result.mailtoHref.startsWith('mailto:Sales.ansmaterials@gmail.com?subject='));
-  assert.ok(result.mailtoHref.includes('&body='));
-  assert.ok(result.clipboardText.includes(`To: ${result.to}`));
-  assert.ok(result.clipboardText.includes(`Subject: ${result.subject}`));
+test('formatInvoiceEmail builds exact required subject, itemized totals, and mailto URI', () => {
+  const inv = logic.calculateProFormaInvoice({
+    quantities: { 'urea-46-0-0': 20, 'dap-18-46-0': 22, 'potash-0-0-60': 0 },
+    packagingId: 'super-sacks',
+    freightPerTon: 70,
+  });
+
+  const email = logic.formatInvoiceEmail(
+    {
+      buyerName: 'Elena Vasquez',
+      businessName: 'Sonoma Valley Growers LLC',
+      deliveryLocation: 'Sonoma County, CA',
+      buyerEmail: 'elena@sonomagrowers.com',
+      buyerPhone: '+1 (707) 555-0144',
+      requestFormalInvoice: true,
+      includeCatalogSds: true,
+      notes: 'Forklift available on site.',
+    },
+    inv
+  );
+
+  assert.equal(email.to, 'Sales.ansmaterials@gmail.com');
+  assert.equal(
+    email.subject,
+    'Invoice & Catalog Request — Sonoma Valley Growers LLC (Sonoma County, CA)'
+  );
+  assert.match(email.body, /Granular Urea \(46-0-0 \| CAS 57-13-6\): 20 short tons × \$750\.00\/ton = \$15,000\.00/);
+  assert.match(email.body, /Diammonium Phosphate \(DAP\) \(18-46-0 \| CAS 7783-28-0\): 22 short tons × \$945\.00\/ton = \$20,790\.00/);
+  assert.match(email.body, /Estimated Order Total:\s+\$40,620\.00/);
+  assert.match(email.body, /20% Deposit \(Lock Allocation\):\s+\$8,124\.00/);
+  assert.match(email.body, /80% Farm-Gate BOL Balance:\s+\$32,496\.00/);
+  assert.ok(email.mailtoHref.startsWith('mailto:Sales.ansmaterials@gmail.com?subject='));
+  assert.ok(email.mailtoHref.includes(encodeURIComponent(email.subject)));
 });
