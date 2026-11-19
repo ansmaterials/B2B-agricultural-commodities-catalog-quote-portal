@@ -1,0 +1,6 @@
+{
+  "name": "A & S Landscape Materials, Inc. — Bulk Agricultural Commodities Portal",
+  "description": "B2B agricultural commodities catalog and direct quote request portal for A & S Landscape Materials, Inc. (San Rafael, CA), featuring 46-0-0 Urea, 18-46-0 DAP, and 0-0-60 Muriate of Potash.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
